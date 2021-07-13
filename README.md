@@ -76,7 +76,7 @@ Diseñar e implementar una base de datos relacional para el monitoreo de aglomer
 
 **Escenario de éxito:** Miembros del grupo revisan datos observados anteriormente. Miembros del grupo calculan el promedio y desviación estándar de los datos. Miembros del grupo comparan los datos anteriores y los datos más recientes. Miembros del grupo verifican que los datos guarden congruencia y consistencia.
 
-**Pre-condiciones: **Miembros del grupo han tomado al menos diez o más observación antes.
+**Pre-condiciones:** Miembros del grupo han tomado al menos diez o más observación antes.
 
 
 
@@ -86,7 +86,7 @@ Diseñar e implementar una base de datos relacional para el monitoreo de aglomer
 
 **Escenario de éxito:** Digitador *registra las observaciones*. Digitador escribe la información en editor de texto. Digitador escribe comentarios de la información obtenida.
 
-**Pre-condiciones: **Miembros del grupo han validado datos.
+**Pre-condiciones:** Miembros del grupo han validado datos.
 
 
 
@@ -96,7 +96,7 @@ Diseñar e implementar una base de datos relacional para el monitoreo de aglomer
 
 **Escenario de éxito:** Miembros del grupo *generan un informe* de la información digitalizada. Miembros del grupo definen la aglomeración. Miembros del grupo determinan aglomeraciones con la información dada. Miembros del grupo *redactan conclusiones.*
 
-**Pre-condiciones: **Miembros del grupo han digitalizado datos.
+**Pre-condiciones:** Miembros del grupo han digitalizado datos.
 
 
 
