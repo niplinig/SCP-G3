@@ -143,33 +143,85 @@ call ingresar_chip_wireless('43-9A-5E-38-9C-79', '0942343233');
 
 -- UPDATES
 
--- Modificar por su ID
+-- Tabla Asiste
+-- Modificar el valor de codigo_area_A
+-- Recibe el id de la tabla y el nuevo valor para el codigo_area_A
 
--- Asiste
-
-DROP PROCEDURE IF EXISTS update_Asiste;
+DROP PROCEDURE IF EXISTS update_Asiste_codigo_area_A;
 DELIMITER //
-CREATE PROCEDURE update_Asiste(IN columna_a_modificar VARCHAR(10), IN nuevo_valor VARCHAR(10), IN id_tabla VARCHAR(10))
+CREATE PROCEDURE update_Asiste_codigo_area_A(IN id_tabla VARCHAR(10), IN nuevo_valor VARCHAR(6))
 BEGIN
-	UPDATE Asiste
-    SET columna_a_modificar = _nuevo_valor
-    WHERE id_usuario_A = id_tabla;
+
+	-- Primero se valida si el nuevo valor de codigo_area_A existe en la tabla Lugar
+
+	-- Segundo validamos si el id_usuario_A existe en la tabla Asiste
+
+	DECLARE id_usuario_A_resultante VARCHAR(10);
+	DECLARE codigo_area_nuevo VARCHAR(6);
+
+    SET id_usuario_A_resultante = (SELECT id_usuario_A FROM Asiste WHERE id_usuario_A LIKE id_tabla);
+    SET codigo_area_nuevo = (SELECT codigo_area FROM Lugar WHERE codigo_area LIKE nuevo_valor);
+
+	IF (id_usuario_A_resultante IS NOT NULL) THEN
+
+		IF (codigo_area_nuevo IS NOT NULL) THEN
+			UPDATE Asiste
+		    SET codigo_area_A = codigo_area_nuevo
+		    WHERE id_usuario_A = id_usuario_A_resultante;
+			SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+		ELSE
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, codigo_area_A no existe en la tabla Lugar';
+
+		END IF;
+
+	ELSE
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, id_usuario_A no existe en la tabla Asiste';
+
+    END IF;
 END//
 DELIMITER ;
 
-CALL update_Asiste('');
+CALL update_Asiste_codigo_area_A('0987672335', 'ABB200');
+
+CALL update_Asiste_codigo_area_A('0987672335', 'BCC800');
 
 /*-------------------------------------------------------*/
 
--- Chip_Wireless
+-- Tabla Chip_Wireless
+-- Modificar el valor de Cedula
+-- Recibe el id de la tabla y el nuevo valor para la Cedula
 
 DROP PROCEDURE IF EXISTS update_Chip_Wireless;
 DELIMITER //
-CREATE PROCEDURE update_Chip_Wireless(IN columna_a_modificar VARCHAR(10), IN nuevo_valor VARCHAR(10), IN id_tabla VARCHAR(10))
+CREATE PROCEDURE update_Chip_Wireless(IN id_tabla VARCHAR(48), IN nuevo_valor VARCHAR(10))
 BEGIN
-	UPDATE Chip_Wireless
-    SET columna_a_modificar = _nuevo_valor
-    WHERE mac_address_disp = id_tabla;
+
+	DECLARE mac_address_disp_resultante VARCHAR(48);
+	DECLARE cedula_nueva VARCHAR(10);
+
+	SET mac_address_disp_resultante = (SELECT mac_address_disp FROM Chip_Wireless WHERE mac_address_disp LIKE id_tabla);
+	SET cedula_nueva = (SELECT id_usuario FROM Usuario WHERE id_usuario LIKE nuevo_valor);
+
+	IF (mac_address_disp_resultante IS NOT NULL) THEN
+
+		IF (cedula_nueva IS NOT NULL) THEN
+
+			UPDATE Chip_Wireless
+		    SET Cedula = cedula_nueva
+		    WHERE mac_address_disp = mac_address_disp_resultante;
+			SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+		ELSE
+
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al acualizar id_usuario(Cedula) no existe en la talba Usuario';
+
+		END IF;
+
+	ELSE
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, mac_address_disp no existe en la tabla Chip_Wireless';
+
+	END IF;
 END//
 DELIMITER ;
 
