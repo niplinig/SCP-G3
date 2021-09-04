@@ -1,7 +1,8 @@
 USE G3P1_contador_personas;
 
 -- Procedimientos almacenados
--- Insert
+
+-- INSERTS
 
 DROP PROCEDURE IF EXISTS ingresar_ciudad;
 DELIMITER //
@@ -35,8 +36,6 @@ DELIMITER ;
 
 call ingresar_cliente("1779238284567", "Juan Pueblo");
 /*-------------------------------------------------------*/
-
-
 
 DROP PROCEDURE IF EXISTS ingresar_grupos_puntoscomunicacion;
 DELIMITER //
@@ -150,121 +149,163 @@ call ingresar_chip_wireless('43-9A-5E-38-9C-79', '0942343233');
 
 DROP PROCEDURE IF EXISTS update_Asiste;
 DELIMITER //
-CREATE PROCEDURE update_Asiste(IN set_condition VARCHAR(10), IN set_argument VARCHAR(10), IN where_argument VARCHAR(10))
+CREATE PROCEDURE update_Asiste(IN columna_a_modificar VARCHAR(10), IN nuevo_valor VARCHAR(10), IN id_tabla VARCHAR(10))
 BEGIN
 	UPDATE Asiste
-    SET set_condition = _set_argument
-    WHERE id_usuario_A = where_argument;
+    SET columna_a_modificar = _nuevo_valor
+    WHERE id_usuario_A = id_tabla;
 END//
 DELIMITER ;
+
+CALL update_Asiste('');
+
+/*-------------------------------------------------------*/
 
 -- Chip_Wireless
 
 DROP PROCEDURE IF EXISTS update_Chip_Wireless;
 DELIMITER //
-CREATE PROCEDURE update_Chip_Wireless(IN set_condition VARCHAR(10), IN set_argument VARCHAR(10), IN where_argument VARCHAR(10))
+CREATE PROCEDURE update_Chip_Wireless(IN columna_a_modificar VARCHAR(10), IN nuevo_valor VARCHAR(10), IN id_tabla VARCHAR(10))
 BEGIN
 	UPDATE Chip_Wireless
-    SET set_condition = _set_argument
-    WHERE mac_address_disp = where_argument;
+    SET columna_a_modificar = _nuevo_valor
+    WHERE mac_address_disp = id_tabla;
 END//
 DELIMITER ;
+
+CALL update_Chip_Wireless();
+
+/*-------------------------------------------------------*/
 
 -- Ciudad
 
 DROP PROCEDURE IF EXISTS update_Ciudad;
 DELIMITER //
-CREATE PROCEDURE update_Ciudad(IN set_condition VARCHAR(10), IN set_argument VARCHAR(10), IN where_argument VARCHAR(10))
+CREATE PROCEDURE update_Ciudad(IN columna_a_modificar VARCHAR(10), IN nuevo_valor VARCHAR(10), IN id_tabla VARCHAR(10))
 BEGIN
 	UPDATE Ciudad
-    SET set_condition = _set_argument
-    WHERE Nombre = where_argument;
+    SET columna_a_modificar = _nuevo_valor
+    WHERE Nombre = id_tabla;
 END//
 DELIMITER ;
+
+CALL update_Ciudad();
+
+/*-------------------------------------------------------*/
 
 -- Cliente
 
 DROP PROCEDURE IF EXISTS update_Cliente;
 DELIMITER //
-CREATE PROCEDURE update_Cliente(IN set_condition VARCHAR(10), IN set_argument VARCHAR(10), IN where_argument VARCHAR(10))
+CREATE PROCEDURE update_Cliente(IN columna_a_modificar VARCHAR(10), IN nuevo_valor VARCHAR(10), IN id_tabla VARCHAR(10))
 BEGIN
 	UPDATE Cliente
-    SET set_condition = _set_argument
-    WHERE RUC = where_argument;
+    SET columna_a_modificar = _nuevo_valor
+    WHERE RUC = id_tabla;
 END//
 DELIMITER ;
+
+CALL update_Cliente();
+
+/*-------------------------------------------------------*/
 
 -- Grupos_Puntos_Comunicacion
 
 DROP PROCEDURE IF EXISTS update_Grupos_Puntos_Comunicacion;
 DELIMITER //
-CREATE PROCEDURE update_Grupos_Puntos_Comunicacion(IN set_condition VARCHAR(10), IN set_argument VARCHAR(10), IN where_argument VARCHAR(10))
+CREATE PROCEDURE update_Grupos_Puntos_Comunicacion(IN columna_a_modificar VARCHAR(10), IN nuevo_valor VARCHAR(10), IN id_tabla VARCHAR(10))
 BEGIN
 	UPDATE Grupos_Puntos_Comunicacion
-    SET set_condition = _set_argument
-    WHERE id_grupo = where_argument;
+    SET columna_a_modificar = _nuevo_valor
+    WHERE id_grupo = id_tabla;
 END//
 DELIMITER ;
+
+CALL update_Grupos_Puntos_Comunicacion();
+
+/*-------------------------------------------------------*/
 
 -- Lugar
 
 DROP PROCEDURE IF EXISTS update_Lugar;
 DELIMITER //
-CREATE PROCEDURE update_Lugar(IN set_condition VARCHAR(10), IN set_argument VARCHAR(10), IN where_argument VARCHAR(10))
+CREATE PROCEDURE update_Lugar(IN columna_a_modificar VARCHAR(10), IN nuevo_valor VARCHAR(10), IN id_tabla VARCHAR(10))
 BEGIN
 	UPDATE Lugar
-    SET set_condition = _set_argument
-    WHERE codigo_area = where_argument;
+    SET columna_a_modificar = _nuevo_valor
+    WHERE codigo_area = id_tabla;
 END//
 DELIMITER ;
+
+CALL update_Lugar();
+
+/*-------------------------------------------------------*/
 
 -- Puntos_Comunicacion
 
 DROP PROCEDURE IF EXISTS update_Puntos_Comunicacion;
 DELIMITER //
-CREATE PROCEDURE update_Puntos_Comunicacion(IN set_condition VARCHAR(10), IN set_argument VARCHAR(10), IN where_argument VARCHAR(10))
+CREATE PROCEDURE update_Puntos_Comunicacion(IN columna_a_modificar VARCHAR(10), IN nuevo_valor VARCHAR(10), IN id_tabla VARCHAR(10))
 BEGIN
 	UPDATE Puntos_Comunicacion
-    SET set_condition = _set_argument
-    WHERE mac_adrress_bcn = where_argument;
+    SET columna_a_modificar = _nuevo_valor
+    WHERE mac_adrress_bcn = id_tabla;
 END//
 DELIMITER ;
+
+CALL update_Puntos_Comunicacion();
+
+/*-------------------------------------------------------*/
 
 -- Registra
 
 DROP PROCEDURE IF EXISTS update_Registra;
 DELIMITER //
-CREATE PROCEDURE update_Registra(IN set_condition VARCHAR(10), IN set_argument VARCHAR(10), IN where_argument VARCHAR(10))
+CREATE PROCEDURE update_Registra(IN columna_a_modificar VARCHAR(10), IN nuevo_valor VARCHAR(10), IN id_tabla VARCHAR(10))
 BEGIN
 	UPDATE Registra
-    SET set_condition = _set_argument
-    WHERE id_usuario = where_argument;
+    SET columna_a_modificar = _nuevo_valor
+    WHERE id_usuario = id_tabla;
 END//
 DELIMITER ;
+
+CALL update_Registra();
+
+/*-------------------------------------------------------*/
 
 -- Registra_Observacion
 
 DROP PROCEDURE IF EXISTS update_Registra_Observacion;
 DELIMITER //
-CREATE PROCEDURE update_Registra_Observacion(IN set_condition VARCHAR(10), IN set_argument VARCHAR(10), IN where_argument VARCHAR(10))
+CREATE PROCEDURE update_Registra_Observacion(IN columna_a_modificar VARCHAR(10), IN nuevo_valor VARCHAR(10), IN id_tabla VARCHAR(10))
 BEGIN
 	UPDATE Registra_Observacion
-    SET set_condition = _set_argument
-    WHERE id_observacion = where_argument;
+    SET columna_a_modificar = _nuevo_valor
+    WHERE id_observacion = id_tabla;
 END//
 DELIMITER ;
+
+CALL update_Registra_Observacion();
+
+/*-------------------------------------------------------*/
 
 -- Usuario
 
 DROP PROCEDURE IF EXISTS update_Usuario;
 DELIMITER //
-CREATE PROCEDURE update_Usuario(IN set_condition VARCHAR(10), IN set_argument VARCHAR(10), IN where_argument VARCHAR(10))
+CREATE PROCEDURE update_Usuario(IN columna_a_modificar VARCHAR(10), IN nuevo_valor VARCHAR(10), IN id_tabla VARCHAR(10))
 BEGIN
 	UPDATE Usuario
-    SET set_condition = _set_argument
-    WHERE id_usuario = where_argument;
+    SET columna_a_modificar = _nuevo_valor
+    WHERE id_usuario = id_tabla;
 END//
 DELIMITER ;
+
+CALL update_Usuario();
+
+/*-------------------------------------------------------*/
+
+-- DELETES
 
 -- Modificar por su ID
 
@@ -272,111 +313,151 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS delete_Asiste;
 DELIMITER //
-CREATE PROCEDURE delete_Asiste(IN where_argument VARCHAR(10))
+CREATE PROCEDURE delete_Asiste(IN id_tabla VARCHAR(10))
 BEGIN
 	DELETE FROM Asiste
-    WHERE id_usuario_A = where_argument;
+    WHERE id_usuario_A = id_tabla;
 END//
 DELIMITER ;
+
+CALL delete_Asiste();
+
+/*-------------------------------------------------------*/
 
 -- Chip_Wireless
 
 DROP PROCEDURE IF EXISTS delete_Chip_Wireless;
 DELIMITER //
-CREATE PROCEDURE delete_Chip_Wireless(IN where_argument VARCHAR(10))
+CREATE PROCEDURE delete_Chip_Wireless(IN id_tabla VARCHAR(10))
 BEGIN
 	DELETE FROM Chip_Wireless
-    WHERE mac_address_disp = where_argument;
+    WHERE mac_address_disp = id_tabla;
 END//
 DELIMITER ;
+
+CALL delete_Chip_Wireless();
+
+/*-------------------------------------------------------*/
 
 -- Ciudad
 
 DROP PROCEDURE IF EXISTS delete_Ciudad;
 DELIMITER //
-CREATE PROCEDURE delete_Ciudad(IN where_argument VARCHAR(10))
+CREATE PROCEDURE delete_Ciudad(IN id_tabla VARCHAR(10))
 BEGIN
 	DELETE FROM Ciudad
-    WHERE Nombre = where_argument;
+    WHERE Nombre = id_tabla;
 END//
 DELIMITER ;
+
+CALL delete_Ciudad();
+
+/*-------------------------------------------------------*/
 
 -- Cliente
 
 DROP PROCEDURE IF EXISTS delete_Cliente;
 DELIMITER //
-CREATE PROCEDURE delete_Cliente(IN where_argument VARCHAR(10))
+CREATE PROCEDURE delete_Cliente(IN id_tabla VARCHAR(10))
 BEGIN
 	DELETE FROM Cliente
-    WHERE RUC = where_argument;
+    WHERE RUC = id_tabla;
 END//
 DELIMITER ;
+
+CALL delete_Cliente();
+
+/*-------------------------------------------------------*/
 
 -- Grupos_Puntos_Comunicacion
 
 DROP PROCEDURE IF EXISTS delete_Grupos_Puntos_Comunicacion;
 DELIMITER //
-CREATE PROCEDURE delete_Grupos_Puntos_Comunicacion(IN where_argument VARCHAR(10))
+CREATE PROCEDURE delete_Grupos_Puntos_Comunicacion(IN id_tabla VARCHAR(10))
 BEGIN
 	DELETE FROM Grupos_Puntos_Comunicacion
-    WHERE id_grupo = where_argument;
+    WHERE id_grupo = id_tabla;
 END//
 DELIMITER ;
+
+CALL delete_Grupos_Puntos_Comunicacion();
+
+/*-------------------------------------------------------*/
 
 -- Lugar
 
 DROP PROCEDURE IF EXISTS delete_Lugar;
 DELIMITER //
-CREATE PROCEDURE delete_Lugar(IN where_argument VARCHAR(10))
+CREATE PROCEDURE delete_Lugar(IN id_tabla VARCHAR(10))
 BEGIN
 	DELETE FROM Lugar
-    WHERE codigo_area = where_argument;
+    WHERE codigo_area = id_tabla;
 END//
 DELIMITER ;
+
+CALL delete_Lugar();
+
+/*-------------------------------------------------------*/
 
 -- Puntos_Comunicacion
 
 DROP PROCEDURE IF EXISTS delete_Puntos_Comunicacion;
 DELIMITER //
-CREATE PROCEDURE delete_Puntos_Comunicacion(IN where_argument VARCHAR(10))
+CREATE PROCEDURE delete_Puntos_Comunicacion(IN id_tabla VARCHAR(10))
 BEGIN
 	DELETE FROM Puntos_Comunicacion
-    WHERE mac_adrress_bcn = where_argument;
+    WHERE mac_adrress_bcn = id_tabla;
 END//
 DELIMITER ;
+
+CALL delete_Puntos_Comunicacion();
+
+/*-------------------------------------------------------*/
 
 -- Registra
 
 DROP PROCEDURE IF EXISTS delete_Registra;
 DELIMITER //
-CREATE PROCEDURE delete_Registra(IN where_argument VARCHAR(10))
+CREATE PROCEDURE delete_Registra(IN id_tabla VARCHAR(10))
 BEGIN
 	DELETE FROM Registra
-    WHERE id_usuario = where_argument;
+    WHERE id_usuario = id_tabla;
 END//
 DELIMITER ;
+
+CALL delete_Registra();
+
+/*-------------------------------------------------------*/
 
 -- Registra_Observacion
 
 DROP PROCEDURE IF EXISTS delete_Registra_Observacion;
 DELIMITER //
-CREATE PROCEDURE delete_Registra_Observacion(IN where_argument VARCHAR(10))
+CREATE PROCEDURE delete_Registra_Observacion(IN id_tabla VARCHAR(10))
 BEGIN
 	DELETE FROM Registra_Observacion
-    WHERE id_observacion = where_argument;
+    WHERE id_observacion = id_tabla;
 END//
 DELIMITER ;
+
+CALL delete_Registra_Observacion();
+
+/*-------------------------------------------------------*/
 
 -- Usuario
 
 DROP PROCEDURE IF EXISTS delete_Usuario;
 DELIMITER //
-CREATE PROCEDURE delete_Usuario(IN where_argument VARCHAR(10))
+CREATE PROCEDURE delete_Usuario(IN id_tabla VARCHAR(10))
 BEGIN
 	DELETE FROM Usuario
-    WHERE id_usuario = where_argument;
+    WHERE id_usuario = id_tabla;
 END//
 DELIMITER ;
+
+CALL delete_Usuario();
+
+/*-------------------------------------------------------*/
 
 -- Establecer Monitoreo por rangos de fechas
 
@@ -396,6 +477,8 @@ DELIMITER ;
 
 CALL monitoreo_por_fechas('2021-02-14', '2040-02-14');
 
+/*-------------------------------------------------------*/
+
 --  Consultar el aforo actual de una ubicacion determinada
 
 DROP PROCEDURE IF EXISTS aforo_actual;
@@ -411,6 +494,8 @@ END //
 DELIMITER ;
 
 CALL aforo_actual('Urdesa');
+
+/*-------------------------------------------------------*/
 
 -- trigger para ingresar los datos de la tabla Asiste
 
@@ -447,7 +532,7 @@ BEGIN
 END; %%
 delimiter ;
 
--- CON STORED PROCEDURES
+-- SELECTS
 
 DROP PROCEDURE IF EXISTS mostrar_datos_por_ciudad;
 DELIMITER //
