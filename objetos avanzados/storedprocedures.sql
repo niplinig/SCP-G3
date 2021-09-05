@@ -1495,24 +1495,44 @@ SELECT * FROM Usuario WHERE id_usuario LIKE '0656456546';
 
 -- DELETES
 
--- Modificar por su ID
-
--- Asiste
+-- Tabla Asiste
+-- Borrar la fila o el registro
+-- Recibe el id de la fila la cual se quiere borrar
 
 DROP PROCEDURE IF EXISTS delete_Asiste;
 DELIMITER //
 CREATE PROCEDURE delete_Asiste(IN id_tabla VARCHAR(10))
 BEGIN
-	DELETE FROM Asiste
-    WHERE id_usuario_A = id_tabla;
+
+	DECLARE id_usuario_A_resultante VARCHAR(10);
+	SET id_usuario_A_resultante = (SELECT id_usuario FROM Asiste WHERE id_usuario LIKE id_tabla);
+
+	IF (id_usuario_A_resultante IS NOT NULL) THEN
+
+		DELETE FROM Asiste
+	    WHERE id_usuario_A = id_tabla;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Borrado exitoso';
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al borrar, el valor de id_usuario_A no existe en la tabla Asiste';
+
+	END IF;
 END//
 DELIMITER ;
 
-CALL delete_Asiste();
+SELECT * FROM Asiste WHERE id_usuario LIKE '0865672738';
+
+CALL delete_Asiste('0865672738');
+
+SELECT * FROM Asiste WHERE id_usuario LIKE '0865672738';
 
 /*-------------------------------------------------------*/
 
--- Chip_Wireless
+-- Tabla Chip_Wireless
+-- Borrar la fila o el registro
+-- Recibe el id de la fila la cual se quiere borrar
 
 DROP PROCEDURE IF EXISTS delete_Chip_Wireless;
 DELIMITER //
@@ -1527,7 +1547,9 @@ CALL delete_Chip_Wireless();
 
 /*-------------------------------------------------------*/
 
--- Ciudad
+-- Tabla Ciudad
+-- Borrar la fila o el registro
+-- Recibe el id de la fila la cual se quiere borrar
 
 DROP PROCEDURE IF EXISTS delete_Ciudad;
 DELIMITER //
@@ -1542,7 +1564,9 @@ CALL delete_Ciudad();
 
 /*-------------------------------------------------------*/
 
--- Cliente
+-- Tabla Cliente
+-- Borrar la fila o el registro
+-- Recibe el id de la fila la cual se quiere borrar
 
 DROP PROCEDURE IF EXISTS delete_Cliente;
 DELIMITER //
@@ -1557,7 +1581,9 @@ CALL delete_Cliente();
 
 /*-------------------------------------------------------*/
 
--- Grupos_Puntos_Comunicacion
+-- Tabla Grupos_Puntos_Comunicacion
+-- Borrar la fila o el registro
+-- Recibe el id de la fila la cual se quiere borrar
 
 DROP PROCEDURE IF EXISTS delete_Grupos_Puntos_Comunicacion;
 DELIMITER //
@@ -1572,7 +1598,9 @@ CALL delete_Grupos_Puntos_Comunicacion();
 
 /*-------------------------------------------------------*/
 
--- Lugar
+-- Tabla Lugar
+-- Borrar la fila o el registro
+-- Recibe el id de la fila la cual se quiere borrar
 
 DROP PROCEDURE IF EXISTS delete_Lugar;
 DELIMITER //
@@ -1587,7 +1615,9 @@ CALL delete_Lugar();
 
 /*-------------------------------------------------------*/
 
--- Puntos_Comunicacion
+-- Tabla Puntos_Comunicacion
+-- Borrar la fila o el registro
+-- Recibe el id de la fila la cual se quiere borrar
 
 DROP PROCEDURE IF EXISTS delete_Puntos_Comunicacion;
 DELIMITER //
@@ -1602,7 +1632,9 @@ CALL delete_Puntos_Comunicacion();
 
 /*-------------------------------------------------------*/
 
--- Registra
+-- Tabla Registra
+-- Borrar la fila o el registro
+-- Recibe el id de la fila la cual se quiere borrar
 
 DROP PROCEDURE IF EXISTS delete_Registra;
 DELIMITER //
@@ -1617,7 +1649,9 @@ CALL delete_Registra();
 
 /*-------------------------------------------------------*/
 
--- Registra_Observacion
+-- Tabla Registra_Observacion
+-- Borrar la fila o el registro
+-- Recibe el id de la fila la cual se quiere borrar
 
 DROP PROCEDURE IF EXISTS delete_Registra_Observacion;
 DELIMITER //
@@ -1632,7 +1666,9 @@ CALL delete_Registra_Observacion();
 
 /*-------------------------------------------------------*/
 
--- Usuario
+-- Tabla Usuario
+-- Borrar la fila o el registro
+-- Recibe el id de la fila la cual se quiere borrar
 
 DROP PROCEDURE IF EXISTS delete_Usuario;
 DELIMITER //
@@ -1646,6 +1682,8 @@ DELIMITER ;
 CALL delete_Usuario();
 
 /*-------------------------------------------------------*/
+
+-- Procemidimientos no CRUD
 
 -- Establecer Monitoreo por rangos de fechas
 
@@ -1684,41 +1722,6 @@ DELIMITER ;
 CALL aforo_actual('Urdesa');
 
 /*-------------------------------------------------------*/
-
--- trigger para ingresar los datos de la tabla Asiste
-
-DROP TRIGGER IF EXISTS auto_insertar_Asiste;
-delimiter //
-
-CREATE TRIGGER auto_insertar_Asiste BEFORE INSERT ON Usuario
-FOR EACH ROW
-BEGIN
-    DECLARE id_usuario_en_tabla_asiste VARCHAR(10);
-    SELECT id_usuario INTO id_usuario_en_tabla_asiste FROM Asiste WHERE id_usuario LIKE NEW.id_usuario;
-
-	IF id_usuario_en_tabla_asiste IS NULL THEN
-		INSERT INTO Asiste(id_usuario, codigo_area) VALUES (NEW.id_usuario, (SELECT codigo_area FROM Lugar WHERE ciudad LIKE "Guayaquil" LIMIT 1));
-	END IF;
-
-END; //
-delimiter ;
-
--- trigger para ingresar los datos en la tabla Registra
-
-delimiter %%
-
-CREATE TRIGGER auto_insertar_Registra BEFORE INSERT ON Usuario
-FOR EACH ROW
-BEGIN
-	DECLARE _mac_adrress_bcn VARCHAR(48);
-    SELECT mac_adrress_bcn INTO _mac_adrress_bcn FROM Puntos_Comunicacion WHERE mac_adrress_bcn LIKE (SELECT mac_address_disp FROM Chip_Wireless WHERE id_usuario LIKE NEW.id_usuario LIMIT 1);
-
-    IF _mac_adrress_bcn IS NULL THEN
-		INSERT INTO Registra(id_usuario, mac_address_bcn) VALUES (NEW.id_usuario, (SELECT mac_address_disp FROM Chip_Wireless WHERE id_usuario LIKE NEW.id_usuario LIMIT 1));
-	END IF;
-
-END; %%
-delimiter ;
 
 -- SELECTS
 
