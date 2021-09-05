@@ -1,6 +1,6 @@
 USE G3P1_contador_personas;
 
--- Procedimientos almacenados
+-- Procedi	mientos almacenados
 
 -- INSERTS
 
@@ -143,50 +143,8 @@ call ingresar_chip_wireless('43-9A-5E-38-9C-79', '0942343233');
 
 -- UPDATES
 
--- Tabla Asiste
--- Modificar el valor de codigo_area_A
--- Recibe el id de la tabla y el nuevo valor para el codigo_area_A
-
-DROP PROCEDURE IF EXISTS update_Asiste_codigo_area_A;
-DELIMITER //
-CREATE PROCEDURE update_Asiste_codigo_area_A(IN id_tabla VARCHAR(10), IN nuevo_valor VARCHAR(6))
-BEGIN
-
-	-- Primero se valida si el nuevo valor de codigo_area_A existe en la tabla Lugar
-
-	-- Segundo validamos si el id_usuario_A existe en la tabla Asiste
-
-	DECLARE id_usuario_A_resultante VARCHAR(10);
-	DECLARE codigo_area_nuevo VARCHAR(6);
-
-    SET id_usuario_A_resultante = (SELECT id_usuario_A FROM Asiste WHERE id_usuario_A LIKE id_tabla);
-    SET codigo_area_nuevo = (SELECT codigo_area FROM Lugar WHERE codigo_area LIKE nuevo_valor);
-
-	IF (id_usuario_A_resultante IS NOT NULL) THEN
-
-		IF (codigo_area_nuevo IS NOT NULL) THEN
-			UPDATE Asiste
-		    SET codigo_area_A = codigo_area_nuevo
-		    WHERE id_usuario_A = id_usuario_A_resultante;
-			SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
-
-		ELSE
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de codig_area(codigo_area_A) no existe en la tabla Lugar';
-
-		END IF;
-
-	ELSE
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de id_usuario_A no existe en la tabla Asiste';
-
-    END IF;
-END//
-DELIMITER ;
-
-CALL update_Asiste_codigo_area_A('0987672335', 'ABB200');
-
-CALL update_Asiste_codigo_area_A('0987672335', 'BCC800');
-
-/*-------------------------------------------------------*/
+-- No se puede actualizar la tabla Asiste ni la tabla Registra
+-- Debido a que cuentan con solo claves foraneas o claves primarias.
 
 -- Tabla Chip_Wireless
 -- Modificar el valor de Cedula
@@ -1303,7 +1261,7 @@ SELECT * FROM Puntos_Comunicacion WHERE mac_address_bcn LIKE '0B-72-39-F2-D9-E0'
 
 DROP PROCEDURE IF EXISTS update_RO_fecha_registro;
 DELIMITER //
-CREATE PROCEDURE update_RO_fecha_registro(IN id_tabla VARCHAR(10), IN nuevo_valor VARCHAR(10))
+CREATE PROCEDURE update_RO_fecha_registro(IN id_tabla INT, IN nuevo_valor VARCHAR(10))
 BEGIN
 
 	DECLARE id_observacion_resultante INT;
@@ -1336,11 +1294,11 @@ BEGIN
 END//
 DELIMITER ;
 
-CALL update_RO_fecha_registro('1111', '2026-01-01');
+CALL update_RO_fecha_registro(1111, '2026-01-01');
 
 SELECT * FROM Registra_Observacion WHERE id_observacion = 1111;
 
-CALL update_RO_fecha_registro('1111', '2021-12-09');
+CALL update_RO_fecha_registro(1111, '2021-12-09');
 
 SELECT * FROM Registra_Observacion WHERE id_observacion = 1111;
 
@@ -1352,7 +1310,7 @@ SELECT * FROM Registra_Observacion WHERE id_observacion = 1111;
 
 DROP PROCEDURE IF EXISTS update_RO_hora_registro;
 DELIMITER //
-CREATE PROCEDURE update_RO_hora_registro(IN id_tabla VARCHAR(10), IN nuevo_valor VARCHAR(10))
+CREATE PROCEDURE update_RO_hora_registro(IN id_tabla INT, IN nuevo_valor VARCHAR(10))
 BEGIN
 
 	DECLARE id_observacion_resultante INT;
@@ -1385,11 +1343,11 @@ BEGIN
 END//
 DELIMITER ;
 
-CALL update_RO_hora_registro('1111', '01:00:00');
+CALL update_RO_hora_registro(1111, '01:00:00');
 
 SELECT * FROM Registra_Observacion WHERE id_observacion = 1111;
 
-CALL update_RO_hora_registro('1111', '12:33:33');
+CALL update_RO_hora_registro(1111, '12:33:33');
 
 SELECT * FROM Registra_Observacion WHERE id_observacion = 1111;
 
@@ -1401,14 +1359,14 @@ SELECT * FROM Registra_Observacion WHERE id_observacion = 1111;
 
 DROP PROCEDURE IF EXISTS update_RO_ubicacion_observador;
 DELIMITER //
-CREATE PROCEDURE update_RO_ubicacion_observador(IN id_tabla VARCHAR(10), IN nuevo_valor VARCHAR(10))
+CREATE PROCEDURE update_RO_ubicacion_observador(IN id_tabla INT, IN nuevo_valor VARCHAR(30))
 BEGIN
 
 	DECLARE id_observacion_resultante INT;
-	DECLARE ubicacion_observador_resultante TIME;
+	DECLARE ubicacion_observador_resultante VARCHAR(30);
 
 	SET id_observacion_resultante = (SELECT id_observacion FROM Registra_Observacion WHERE id_observacion = id_tabla);
-	SET ubicacion_observador_resultante = (SELECT TIME(nuevo_valor));
+	SET ubicacion_observador_resultante = (SELECT ubicacion FROM Lugar WHERE ubicacion LIKE nuevo_valor LIMIT 1);
 
 	IF (id_observacion_resultante IS NOT NULL) THEN
 
@@ -1434,11 +1392,60 @@ BEGIN
 END//
 DELIMITER ;
 
-CALL update_RO_ubicacion_observador('1111', '01:00:00');
+CALL update_RO_ubicacion_observador('1111', 'MallDelSol');
 
 SELECT * FROM Registra_Observacion WHERE id_observacion = 1111;
 
 CALL update_RO_ubicacion_observador('1111', 'MallDelRio');
+
+SELECT * FROM Registra_Observacion WHERE id_observacion = 1111;
+
+/*-------------------------------------------------------*/
+
+-- Tabla Registra_Observacion
+-- Modificar el valor de mac_address_punto
+-- Recibe el id de la tabla y el nuevo valor para la mac_address_punto
+
+DROP PROCEDURE IF EXISTS update_RO_mac_address_punto;
+DELIMITER //
+CREATE PROCEDURE update_RO_mac_address_punto(IN id_tabla INT, IN nuevo_valor VARCHAR(48))
+BEGIN
+
+	DECLARE id_observacion_resultante INT;
+	DECLARE mac_address_punto_resultante VARCHAR(48);
+
+	SET id_observacion_resultante = (SELECT id_observacion FROM Registra_Observacion WHERE id_observacion = id_tabla);
+	SET mac_address_punto_resultante = (SELECT mac_address_bcn FROM Puntos_Comunicacion WHERE mac_address_bcn LIKE nuevo_valor);
+
+	IF (id_observacion_resultante IS NOT NULL) THEN
+
+		IF (mac_address_punto_resultante IS NOT NULL) THEN
+
+			UPDATE Registra_Observacion
+		    SET mac_address_punto = mac_address_punto_resultante
+		    WHERE id_observacion = id_observacion_resultante;
+
+			SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+		ELSE
+
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de mac_address_punto no existe en tabla Puntos_Comunicacion';
+
+		END IF;
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de id_observacion no existe en la tabla Registra_Observacion';
+
+	END IF;
+END//
+DELIMITER ;
+
+CALL update_RO_mac_address_punto('1111', 'F2-65-52-46-B7-A6');
+
+SELECT * FROM Registra_Observacion WHERE id_observacion = 1111;
+
+CALL update_RO_mac_address_punto('1111', 'F2-0C-5B-E8-4A-0C');
 
 SELECT * FROM Registra_Observacion WHERE id_observacion = 1111;
 
