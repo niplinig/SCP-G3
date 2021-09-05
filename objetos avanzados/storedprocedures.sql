@@ -472,26 +472,592 @@ CALL update_GPC_rango_cubierto(10594, 919.91);
 /*-------------------------------------------------------*/
 
 -- Tabla Lugar
--- Modificar el valor de Longitud
--- Recibe el id (codigo_area) de la tabla y el nuevo valor para la Longitud
+-- Modificar el valor de longitud
+-- Recibe el id (codigo_area) de la tabla y el nuevo valor para la longitud
 
-DROP PROCEDURE IF EXISTS update_Lugar;
+DROP PROCEDURE IF EXISTS update_Lugar_longitud;
 DELIMITER //
-CREATE PROCEDURE update_Lugar(IN id_tabla VARCHAR(6), IN nuevo_valor VARCHAR(10))
+CREATE PROCEDURE update_Lugar_longitud(IN id_tabla VARCHAR(6), IN nuevo_valor VARCHAR(20))
 BEGIN
 
-	DECLARE codigo_area_resultante INT;
+	DECLARE codigo_area_resultante VARCHAR(6);
 
-	SET codigo_area_resultante = (SELECT codigo_area FROM Lugar WHERE codigo_area = id_tabla);
+	SET codigo_area_resultante = (SELECT codigo_area FROM Lugar WHERE codigo_area LIKE id_tabla);
 
-	UPDATE Lugar
-    SET columna_a_modificar = _nuevo_valor
-    WHERE codigo_area = id_tabla;
-	
+	IF (codigo_area_resultante IS NOT NULL) THEN
+
+		UPDATE Lugar
+	    SET longitud = nuevo_valor
+	    WHERE codigo_area LIKE codigo_area_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+	ELSE
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de codigo_area no existe en la tabla Lugar';
+
+	END IF;
+
 END//
 DELIMITER ;
 
-CALL update_Lugar();
+CALL update_Lugar_longitud('AAA100', '0');
+
+SELECT * FROM Lugar WHERE codigo_area LIKE 'AAA100';
+
+CALL update_Lugar_longitud('AAA100', '89.1919');
+
+SELECT * FROM Lugar WHERE codigo_area LIKE 'AAA100';
+
+/*-------------------------------------------------------*/
+
+-- Tabla Lugar
+-- Modificar el valor de latitud
+-- Recibe el id (codigo_area) de la tabla y el nuevo valor para la latitud
+
+DROP PROCEDURE IF EXISTS update_Lugar_latitud;
+DELIMITER //
+CREATE PROCEDURE update_Lugar_latitud(IN id_tabla VARCHAR(6), IN nuevo_valor VARCHAR(20))
+BEGIN
+
+	DECLARE codigo_area_resultante VARCHAR(6);
+
+	SET codigo_area_resultante = (SELECT codigo_area FROM Lugar WHERE codigo_area LIKE id_tabla);
+
+	IF (codigo_area_resultante IS NOT NULL) THEN
+
+		UPDATE Lugar
+	    SET latitud = nuevo_valor
+	    WHERE codigo_area LIKE codigo_area_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+	ELSE
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de codigo_area no existe en la tabla Lugar';
+
+	END IF;
+
+END//
+DELIMITER ;
+
+CALL update_Lugar_latitud('AAA100', '0');
+
+SELECT * FROM Lugar WHERE codigo_area LIKE 'AAA100';
+
+CALL update_Lugar_latitud('AAA100', '-79.3223');
+
+SELECT * FROM Lugar WHERE codigo_area LIKE 'AAA100';
+
+/*-------------------------------------------------------*/
+
+-- Tabla Lugar
+-- Modificar el valor de radio
+-- Recibe el id (codigo_area) de la tabla y el nuevo valor para el radio
+
+DROP PROCEDURE IF EXISTS update_Lugar_radio;
+DELIMITER //
+CREATE PROCEDURE update_Lugar_radio(IN id_tabla VARCHAR(6), IN nuevo_valor FLOAT)
+BEGIN
+
+	DECLARE codigo_area_resultante VARCHAR(6);
+
+	SET codigo_area_resultante = (SELECT codigo_area FROM Lugar WHERE codigo_area LIKE id_tabla);
+
+	IF (codigo_area_resultante IS NOT NULL) THEN
+
+		UPDATE Lugar
+	    SET radio = nuevo_valor
+	    WHERE codigo_area LIKE codigo_area_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+	ELSE
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de codigo_area no existe en la tabla Lugar';
+
+	END IF;
+
+END//
+DELIMITER ;
+
+CALL update_Lugar_radio('AAA100', '0');
+
+SELECT * FROM Lugar WHERE codigo_area LIKE 'AAA100';
+
+CALL update_Lugar_radio('AAA100', '200.12');
+
+SELECT * FROM Lugar WHERE codigo_area LIKE 'AAA100';
+
+/*-------------------------------------------------------*/
+
+-- Tabla Lugar
+-- Modificar el valor de sector
+-- Recibe el id (codigo_area) de la tabla y el nuevo valor para el sector
+
+DROP PROCEDURE IF EXISTS update_Lugar_sector;
+DELIMITER //
+CREATE PROCEDURE update_Lugar_sector(IN id_tabla VARCHAR(6), IN nuevo_valor VARCHAR(30))
+BEGIN
+
+	DECLARE codigo_area_resultante VARCHAR(6);
+
+	SET codigo_area_resultante = (SELECT codigo_area FROM Lugar WHERE codigo_area LIKE id_tabla);
+
+	IF (codigo_area_resultante IS NOT NULL) THEN
+
+		IF (nuevo_valor IN ('norte', 'centro', 'sur', 'este', 'oeste', 'centronorte')) THEN
+
+			UPDATE Lugar
+		    SET sector = nuevo_valor
+		    WHERE codigo_area LIKE codigo_area_resultante;
+
+			SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+		ELSE
+
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de sector no permitido';
+
+		END IF;
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de codigo_area no existe en la tabla Lugar';
+
+	END IF;
+
+END//
+DELIMITER ;
+
+CALL update_Lugar_sector('AAA100', 'sur');
+
+SELECT * FROM Lugar WHERE codigo_area LIKE 'AAA100';
+
+CALL update_Lugar_sector('AAA100', 'centro');
+
+SELECT * FROM Lugar WHERE codigo_area LIKE 'AAA100';
+
+/*-------------------------------------------------------*/
+
+-- Tabla Lugar
+-- Modificar el valor de codigo_postal
+-- Recibe el id (codigo_area) de la tabla y el nuevo valor para el codigo_postal
+
+DROP PROCEDURE IF EXISTS update_Lugar_codigo_postal;
+DELIMITER //
+CREATE PROCEDURE update_Lugar_codigo_postal(IN id_tabla VARCHAR(6), IN nuevo_valor VARCHAR(6))
+BEGIN
+
+	DECLARE codigo_area_resultante VARCHAR(6);
+
+	SET codigo_area_resultante = (SELECT codigo_area FROM Lugar WHERE codigo_area LIKE id_tabla);
+
+	IF (codigo_area_resultante IS NOT NULL) THEN
+
+		UPDATE Lugar
+	    SET codigo_postal = nuevo_valor
+	    WHERE codigo_area LIKE codigo_area_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de codigo_area no existe en la tabla Lugar';
+
+	END IF;
+
+END//
+DELIMITER ;
+
+CALL update_Lugar_codigo_postal('AAA100', '000000');
+
+SELECT * FROM Lugar WHERE codigo_area LIKE 'AAA100';
+
+CALL update_Lugar_codigo_postal('AAA100', '090101');
+
+SELECT * FROM Lugar WHERE codigo_area LIKE 'AAA100';
+
+/*-------------------------------------------------------*/
+
+-- Tabla Lugar
+-- Modificar el valor de cantidad_personas
+-- Recibe el id (codigo_area) de la tabla y el nuevo valor para la cantidad_personas
+
+DROP PROCEDURE IF EXISTS update_Lugar_cantidad_personas;
+DELIMITER //
+CREATE PROCEDURE update_Lugar_cantidad_personas(IN id_tabla VARCHAR(6), IN nuevo_valor INT)
+BEGIN
+
+	DECLARE codigo_area_resultante VARCHAR(6);
+
+	SET codigo_area_resultante = (SELECT codigo_area FROM Lugar WHERE codigo_area LIKE id_tabla);
+
+	IF (codigo_area_resultante IS NOT NULL) THEN
+
+		UPDATE Lugar
+	    SET cantidad_personas = nuevo_valor
+	    WHERE codigo_area LIKE codigo_area_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de codigo_area no existe en la tabla Lugar';
+
+	END IF;
+
+END//
+DELIMITER ;
+
+CALL update_Lugar_cantidad_personas('AAA100', '0');
+
+SELECT * FROM Lugar WHERE codigo_area LIKE 'AAA100';
+
+CALL update_Lugar_cantidad_personas('AAA100', '20');
+
+SELECT * FROM Lugar WHERE codigo_area LIKE 'AAA100';
+
+/*-------------------------------------------------------*/
+
+-- Tabla Lugar
+-- Modificar el valor de ciudad
+-- Recibe el id (codigo_area) de la tabla y el nuevo valor para la ciudad
+
+DROP PROCEDURE IF EXISTS update_Lugar_ciudad;
+DELIMITER //
+CREATE PROCEDURE update_Lugar_ciudad(IN id_tabla VARCHAR(6), IN nuevo_valor VARCHAR(45))
+BEGIN
+
+	DECLARE codigo_area_resultante VARCHAR(6);
+	DECLARE ciudad_resultante VARCHAR(45);
+
+	SET codigo_area_resultante = (SELECT codigo_area FROM Lugar WHERE codigo_area LIKE id_tabla);
+	SET ciudad_resultante = (SELECT Nombre FROM Ciudad WHERE Nombre LIKE nuevo_valor);
+
+	IF (codigo_area_resultante IS NOT NULL) THEN
+
+		IF (ciudad_resultante IS NOT NULL) THEN
+
+			UPDATE Lugar
+		    SET ciudad = nuevo_valor
+		    WHERE codigo_area LIKE codigo_area_resultante;
+
+			SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+		ELSE
+
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de ciudad(Nombre) no existe en la tabla Ciudad';
+
+		END IF;
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de codigo_area no existe en la tabla Lugar';
+
+	END IF;
+
+END//
+DELIMITER ;
+
+CALL update_Lugar_ciudad('AAA100', 'Quito');
+
+SELECT * FROM Lugar WHERE codigo_area LIKE 'AAA100';
+
+CALL update_Lugar_ciudad('AAA100', 'Guayaquil');
+
+SELECT * FROM Lugar WHERE codigo_area LIKE 'AAA100';
+
+/*-------------------------------------------------------*/
+
+-- Tabla Lugar
+-- Modificar el valor de longitud
+-- Recibe el id (ubicacion) de la tabla y el nuevo valor para la longitud
+
+DROP PROCEDURE IF EXISTS _2update_Lugar_longitud;
+DELIMITER //
+CREATE PROCEDURE _2update_Lugar_longitud(IN id_tabla VARCHAR(30), IN nuevo_valor VARCHAR(20))
+BEGIN
+
+	DECLARE ubicacion_resultante VARCHAR(30);
+
+	SET ubicacion_resultante = (SELECT ubicacion FROM Lugar WHERE ubicacion LIKE id_tabla);
+
+	IF (ubicacion_resultante IS NOT NULL) THEN
+
+		UPDATE Lugar
+	    SET longitud = nuevo_valor
+	    WHERE ubicacion LIKE ubicacion_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+	ELSE
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de ubicacion no existe en la tabla Lugar';
+
+	END IF;
+
+END//
+DELIMITER ;
+
+CALL _2update_Lugar_longitud('Av.9Octubre', '0');
+
+SELECT * FROM Lugar WHERE ubicacion LIKE 'Av.9Octubre';
+
+CALL _2update_Lugar_longitud('Av.9Octubre', '89.1919');
+
+SELECT * FROM Lugar WHERE ubicacion LIKE 'Av.9Octubre';
+
+/*-------------------------------------------------------*/
+
+-- Tabla Lugar
+-- Modificar el valor de latitud
+-- Recibe el id (ubicacion) de la tabla y el nuevo valor para la latitud
+
+DROP PROCEDURE IF EXISTS _2update_Lugar_latitud;
+DELIMITER //
+CREATE PROCEDURE _2update_Lugar_latitud(IN id_tabla VARCHAR(30), IN nuevo_valor VARCHAR(20))
+BEGIN
+
+	DECLARE ubicacion_resultante VARCHAR(30);
+
+	SET ubicacion_resultante = (SELECT ubicacion FROM Lugar WHERE ubicacion LIKE id_tabla);
+
+	IF (ubicacion_resultante IS NOT NULL) THEN
+
+		UPDATE Lugar
+	    SET latitud = nuevo_valor
+	    WHERE ubicacion LIKE ubicacion_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+	ELSE
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de ubicacion no existe en la tabla Lugar';
+
+	END IF;
+
+END//
+DELIMITER ;
+
+CALL _2update_Lugar_latitud('Av.9Octubre', '0');
+
+SELECT * FROM Lugar WHERE ubicacion LIKE 'Av.9Octubre';
+
+CALL _2update_Lugar_latitud('Av.9Octubre', '-79.3223');
+
+SELECT * FROM Lugar WHERE ubicacion LIKE 'Av.9Octubre';
+
+/*-------------------------------------------------------*/
+
+-- Tabla Lugar
+-- Modificar el valor de radio
+-- Recibe el id (ubicacion) de la tabla y el nuevo valor para el radio
+
+DROP PROCEDURE IF EXISTS _2update_Lugar_radio;
+DELIMITER //
+CREATE PROCEDURE _2update_Lugar_radio(IN id_tabla VARCHAR(30), IN nuevo_valor FLOAT)
+BEGIN
+
+	DECLARE ubicacion_resultante VARCHAR(30);
+
+	SET ubicacion_resultante = (SELECT ubicacion FROM Lugar WHERE ubicacion LIKE id_tabla);
+
+	IF (ubicacion_resultante IS NOT NULL) THEN
+
+		UPDATE Lugar
+	    SET radio = nuevo_valor
+	    WHERE ubicacion LIKE ubicacion_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+	ELSE
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de ubicacion no existe en la tabla Lugar';
+
+	END IF;
+
+END//
+DELIMITER ;
+
+CALL _2update_Lugar_radio('Av.9Octubre', '0');
+
+SELECT * FROM Lugar WHERE ubicacion LIKE 'Av.9Octubre';
+
+CALL _2update_Lugar_radio('Av.9Octubre', '200.12');
+
+SELECT * FROM Lugar WHERE ubicacion LIKE 'Av.9Octubre';
+
+/*-------------------------------------------------------*/
+
+-- Tabla Lugar
+-- Modificar el valor de sector
+-- Recibe el id (ubicacion) de la tabla y el nuevo valor para el sector
+
+DROP PROCEDURE IF EXISTS _2update_Lugar_sector;
+DELIMITER //
+CREATE PROCEDURE _2update_Lugar_sector(IN id_tabla VARCHAR(30), IN nuevo_valor VARCHAR(30))
+BEGIN
+
+	DECLARE ubicacion_resultante VARCHAR(30);
+
+	SET ubicacion_resultante = (SELECT ubicacion FROM Lugar WHERE ubicacion LIKE id_tabla);
+
+	IF (ubicacion_resultante IS NOT NULL) THEN
+
+		IF (nuevo_valor IN ('norte', 'centro', 'sur', 'este', 'oeste', 'centronorte')) THEN
+
+			UPDATE Lugar
+		    SET sector = nuevo_valor
+		    WHERE ubicacion LIKE ubicacion_resultante;
+
+			SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+		ELSE
+
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de sector no permitido';
+
+		END IF;
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de ubicacion no existe en la tabla Lugar';
+
+	END IF;
+
+END//
+DELIMITER ;
+
+CALL _2update_Lugar_sector('Av.9Octubre', 'sur');
+
+SELECT * FROM Lugar WHERE ubicacion LIKE 'Av.9Octubre';
+
+CALL _2update_Lugar_sector('Av.9Octubre', 'centro');
+
+SELECT * FROM Lugar WHERE ubicacion LIKE 'Av.9Octubre';
+
+/*-------------------------------------------------------*/
+
+-- Tabla Lugar
+-- Modificar el valor de codigo_postal
+-- Recibe el id (ubicacion) de la tabla y el nuevo valor para el codigo_postal
+
+DROP PROCEDURE IF EXISTS _2update_Lugar_codigo_postal;
+DELIMITER //
+CREATE PROCEDURE _2update_Lugar_codigo_postal(IN id_tabla VARCHAR(30), IN nuevo_valor VARCHAR(30))
+BEGIN
+
+	DECLARE ubicacion_resultante VARCHAR(30);
+
+	SET ubicacion_resultante = (SELECT ubicacion FROM Lugar WHERE ubicacion LIKE id_tabla);
+
+	IF (ubicacion_resultante IS NOT NULL) THEN
+
+		UPDATE Lugar
+	    SET codigo_postal = nuevo_valor
+	    WHERE ubicacion LIKE ubicacion_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de ubicacion no existe en la tabla Lugar';
+
+	END IF;
+
+END//
+DELIMITER ;
+
+CALL _2update_Lugar_codigo_postal('Av.9Octubre', '000000');
+
+SELECT * FROM Lugar WHERE ubicacion LIKE 'Av.9Octubre';
+
+CALL _2update_Lugar_codigo_postal('Av.9Octubre', '090101');
+
+SELECT * FROM Lugar WHERE ubicacion LIKE 'Av.9Octubre';
+
+/*-------------------------------------------------------*/
+
+-- Tabla Lugar
+-- Modificar el valor de cantidad_personas
+-- Recibe el id (ubicacion) de la tabla y el nuevo valor para la cantidad_personas
+
+DROP PROCEDURE IF EXISTS _2update_Lugar_cantidad_personas;
+DELIMITER //
+CREATE PROCEDURE _2update_Lugar_cantidad_personas(IN id_tabla VARCHAR(30), IN nuevo_valor INT)
+BEGIN
+
+	DECLARE ubicacion_resultante VARCHAR(30);
+
+	SET ubicacion_resultante = (SELECT ubicacion FROM Lugar WHERE ubicacion LIKE id_tabla);
+
+	IF (ubicacion_resultante IS NOT NULL) THEN
+
+		UPDATE Lugar
+	    SET cantidad_personas = nuevo_valor
+	    WHERE ubicacion LIKE ubicacion_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de ubicacion no existe en la tabla Lugar';
+
+	END IF;
+
+END//
+DELIMITER ;
+
+CALL _2update_Lugar_cantidad_personas('Av.9Octubre', '0');
+
+SELECT * FROM Lugar WHERE ubicacion LIKE 'Av.9Octubre';
+
+CALL _2update_Lugar_cantidad_personas('Av.9Octubre', '20');
+
+SELECT * FROM Lugar WHERE ubicacion LIKE 'Av.9Octubre';
+
+/*-------------------------------------------------------*/
+
+-- Tabla Lugar
+-- Modificar el valor de ciudad
+-- Recibe el id (ubicacion) de la tabla y el nuevo valor para la ciudad
+
+DROP PROCEDURE IF EXISTS _2update_Lugar_ciudad;
+DELIMITER //
+CREATE PROCEDURE _2update_Lugar_ciudad(IN id_tabla VARCHAR(30), IN nuevo_valor VARCHAR(45))
+BEGIN
+
+	DECLARE ubicacion_resultante VARCHAR(30);
+	DECLARE ciudad_resultante VARCHAR(45);
+
+	SET ubicacion_resultante = (SELECT ubicacion FROM Lugar WHERE ubicacion LIKE id_tabla);
+	SET ciudad_resultante = (SELECT Nombre FROM Ciudad WHERE Nombre LIKE nuevo_valor);
+
+	IF (ubicacion_resultante IS NOT NULL) THEN
+
+		IF (ciudad_resultante IS NOT NULL) THEN
+
+			UPDATE Lugar
+		    SET ciudad = nuevo_valor
+		    WHERE ubicacion LIKE ubicacion_resultante;
+
+			SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+		ELSE
+
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de ciudad(Nombre) no existe en la tabla Ciudad';
+
+		END IF;
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de ubicacion no existe en la tabla Lugar';
+
+	END IF;
+
+END//
+DELIMITER ;
+
+CALL _2update_Lugar_ciudad('Av.9Octubre', 'Quito');
+
+SELECT * FROM Lugar WHERE ubicacion LIKE 'Av.9Octubre';
+
+CALL _2update_Lugar_ciudad('Av.9Octubre', 'Guayaquil');
+
+SELECT * FROM Lugar WHERE ubicacion LIKE 'Av.9Octubre';
 
 /*-------------------------------------------------------*/
 
