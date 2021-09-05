@@ -343,19 +343,41 @@ CALL update_Registra_Observacion();
 
 /*-------------------------------------------------------*/
 
--- Usuario
+-- Tabla Usuairo
+-- Modificar el valor de Telefono
+-- Recibe el id de la tabla y el nuevo valor para el Telefono
 
-DROP PROCEDURE IF EXISTS update_Usuario;
+DROP PROCEDURE IF EXISTS update_Usuario_Telefono;
 DELIMITER //
-CREATE PROCEDURE update_Usuario(IN columna_a_modificar VARCHAR(10), IN nuevo_valor VARCHAR(10), IN id_tabla VARCHAR(10))
+CREATE PROCEDURE update_Usuario_Telefono(IN id_tabla VARCHAR(10), IN nuevo_valor VARCHAR(10))
 BEGIN
-	UPDATE Usuario
-    SET columna_a_modificar = _nuevo_valor
-    WHERE id_usuario = id_tabla;
+
+	DECLARE id_usuario_resultante VARCHAR(10);
+	DECLARE Telefono_nuevo VARCHAR(10);
+
+	SET id_usuario_resultante = (SELECT id_usuario FROM Usuario WHERE id_usuario LIKE id_tabla);
+	SET Telefono_nuevo = nuevo_valor;
+
+	IF (id_usuario_resultante IS NOT NULL) THEN
+
+		UPDATE Usuario
+	    SET Telefono = Telefono_nuevo
+	    WHERE id_usuario LIKE id_usuario_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, id_usuario no existe en la tabla Usuario';
+
+END IF;
+
 END//
 DELIMITER ;
 
-CALL update_Usuario();
+CALL update_Usuario_Telefono('0656456546', '5555555555');
+
+CALL update_Usuario_Telefono('0656456546', '0987878666');
 
 /*-------------------------------------------------------*/
 
