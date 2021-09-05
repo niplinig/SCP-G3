@@ -171,12 +171,12 @@ BEGIN
 			SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
 
 		ELSE
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, codig_area(codigo_area_A) no existe en la tabla Lugar';
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de codig_area(codigo_area_A) no existe en la tabla Lugar';
 
 		END IF;
 
 	ELSE
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, id_usuario_A no existe en la tabla Asiste';
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de id_usuario_A no existe en la tabla Asiste';
 
     END IF;
 END//
@@ -214,12 +214,12 @@ BEGIN
 
 		ELSE
 
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al acualizar, id_usuario(Cedula) no existe en la talba Usuario';
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al acualizar, valor de id_usuario(Cedula) no existe en la talba Usuario';
 
 		END IF;
 
 	ELSE
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, mac_address_disp no existe en la tabla Chip_Wireless';
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de mac_address_disp no existe en la tabla Chip_Wireless';
 
 	END IF;
 END//
@@ -231,60 +231,259 @@ CALL update_Chip_Wireless_Cedula('73-97-C2-7D-E3-E8', '0656456546');
 
 /*-------------------------------------------------------*/
 
--- Ciudad
+-- Tabla Ciudad
+-- Modificar el valor de Sectores
+-- Recibe el id de la tabla y el nuevo valor para el Sector
 
-DROP PROCEDURE IF EXISTS update_Ciudad;
+DROP PROCEDURE IF EXISTS update_Ciudad_Sectores;
 DELIMITER //
-CREATE PROCEDURE update_Ciudad(IN columna_a_modificar VARCHAR(10), IN nuevo_valor VARCHAR(10), IN id_tabla VARCHAR(10))
+CREATE PROCEDURE update_Ciudad_Sectores(IN id_tabla VARCHAR(45), IN nuevo_valor VARCHAR(45))
 BEGIN
-	UPDATE Ciudad
-    SET columna_a_modificar = _nuevo_valor
-    WHERE Nombre = id_tabla;
+
+	DECLARE nombre_resultante VARCHAR(45);
+
+	SET nombre_resultante  = (SELECT Nombre FROM Ciudad WHERE Nombre LIKE id_tabla);
+
+	IF (nombre_resultante IS NOT NULL) THEN
+
+		IF (nuevo_valor IN ('Norte', 'Sur', 'Este', 'Oeste', 'Noreste', 'Sureste', 'Suroeste', 'Noroeste')) THEN
+			UPDATE Ciudad
+		    SET Sectores = nuevo_valor
+		    WHERE Nombre = nombre_resultante;
+
+			SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+		ELSE
+
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al acualizar, valor de Sector no permitido';
+
+		END IF;
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al acualizar, valor de Nombre no existe en la tabla Ciudad';
+
+	END IF;
 END//
 DELIMITER ;
 
-CALL update_Ciudad();
+CALL update_Ciudad_Sectores('Ambato', 'Sur');
+
+CALL update_Ciudad_Sectores('Ambato', 'Norte');
 
 /*-------------------------------------------------------*/
 
--- Cliente
+-- Tabla Ciudad
+-- Modificar el valor de Poblacion
+-- Recibe el id de la tabla y el nuevo valor para la Poblacion
 
-DROP PROCEDURE IF EXISTS update_Cliente;
+DROP PROCEDURE IF EXISTS update_Ciudad_Poblacion;
 DELIMITER //
-CREATE PROCEDURE update_Cliente(IN columna_a_modificar VARCHAR(10), IN nuevo_valor VARCHAR(10), IN id_tabla VARCHAR(10))
+CREATE PROCEDURE update_Ciudad_Poblacion(IN id_tabla VARCHAR(45), IN nuevo_valor INT)
 BEGIN
-	UPDATE Cliente
-    SET columna_a_modificar = _nuevo_valor
-    WHERE RUC = id_tabla;
+
+	DECLARE nombre_resultante VARCHAR(45);
+
+	SET nombre_resultante  = (SELECT Nombre FROM Ciudad WHERE Nombre LIKE id_tabla);
+
+	IF (nombre_resultante IS NOT NULL) THEN
+
+		IF (nuevo_valor > 0) THEN
+			UPDATE Ciudad
+		    SET Poblacion = nuevo_valor
+		    WHERE Nombre = nombre_resultante;
+
+			SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+		ELSE
+
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al acualizar, valor de Poblacion no permitido';
+
+		END IF;
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al acualizar, valor de Nombre no existe en la tabla Ciudad';
+
+	END IF;
 END//
 DELIMITER ;
 
-CALL update_Cliente();
+CALL update_Ciudad_Poblacion('Ambato', 10);
+
+CALL update_Ciudad_Poblacion('Ambato', 165185);
 
 /*-------------------------------------------------------*/
 
--- Grupos_Puntos_Comunicacion
+-- Tabla Cliente
+-- Modificar el valor de Nombre
+-- Recibe el id de la tabla y el nuevo valor para el Nombre
 
-DROP PROCEDURE IF EXISTS update_Grupos_Puntos_Comunicacion;
+DROP PROCEDURE IF EXISTS update_Cliente_Nombre;
 DELIMITER //
-CREATE PROCEDURE update_Grupos_Puntos_Comunicacion(IN columna_a_modificar VARCHAR(10), IN nuevo_valor VARCHAR(10), IN id_tabla VARCHAR(10))
+CREATE PROCEDURE update_Cliente_Nombre(IN id_tabla VARCHAR(13), IN nuevo_valor VARCHAR(45))
 BEGIN
-	UPDATE Grupos_Puntos_Comunicacion
-    SET columna_a_modificar = _nuevo_valor
-    WHERE id_grupo = id_tabla;
+
+	DECLARE RUC_resultante VARCHAR(13);
+
+	SET RUC_resultante = (SELECT RUC FROM Cliente WHERE RUC LIKE id_tabla);
+
+	IF (RUC_resultante IS NOT NULL) THEN
+
+		UPDATE Cliente
+	    SET Nombre = nuevo_valor
+	    WHERE RUC LIKE RUC_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de RUC no existe en la tabla Cliente';
+
+	END IF;
+
 END//
 DELIMITER ;
 
-CALL update_Grupos_Puntos_Comunicacion();
+CALL update_Cliente_Nombre('1711109093001', 'Nicolás Plaza');
+
+CALL update_Cliente_Nombre('1711109093001', 'Felicidad Cardenas');
 
 /*-------------------------------------------------------*/
 
--- Lugar
+-- Tabla Grupos_Puntos_Comunicacion
+-- Modificar el valor de g_operativo
+-- Recibe el id de la tabla y el nuevo valor para el Nombre
+
+DROP PROCEDURE IF EXISTS update_GPC_g_operativo;
+DELIMITER //
+CREATE PROCEDURE update_GPC_g_operativo(IN id_tabla INT)
+BEGIN
+
+	DECLARE id_grupo_resultante INT;
+	DECLARE g_operativo_anterior TINYINT;
+
+	SET g_operativo_anterior = (SELECT g_operativo FROM Grupos_Puntos_Comunicacion WHERE id_grupo = id_tabla);
+	SET id_grupo_resultante = (SELECT id_grupo FROM Grupos_Puntos_Comunicacion WHERE id_grupo = id_tabla);
+
+	IF (id_grupo_resultante IS NOT NULL) THEN
+		IF (g_operativo_anterior = 0) THEN
+
+			UPDATE Grupos_Puntos_Comunicacion
+			SET g_operativo = 1
+			WHERE id_grupo = id_tabla;
+
+			SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+		ELSE
+
+			UPDATE Grupos_Puntos_Comunicacion
+			SET g_operativo = 0
+			WHERE id_grupo = id_tabla;
+
+			SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+		END IF;
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de id_grupo no existe en la tabla Grupos_Puntos_Comunicacion';
+
+	END IF;
+
+END//
+DELIMITER ;
+
+CALL update_GPC_g_operativo(10594);
+
+CALL update_GPC_g_operativo(10594);
+
+/*-------------------------------------------------------*/
+
+-- Tabla Grupos_Puntos_Comunicacion
+-- Modificar el valor de cantidad
+-- Recibe el id de la tabla y el nuevo valor para la cantidad
+
+DROP PROCEDURE IF EXISTS update_GPC_cantidad;
+DELIMITER //
+CREATE PROCEDURE update_GPC_cantidad(IN id_tabla INT, IN nuevo_valor INT)
+BEGIN
+
+	DECLARE id_grupo_resultante INT;
+
+	SET id_grupo_resultante = (SELECT id_grupo FROM Grupos_Puntos_Comunicacion WHERE id_grupo = id_tabla);
+
+	IF (id_grupo_resultante IS NOT NULL) THEN
+
+		UPDATE Grupos_Puntos_Comunicacion
+		SET cantidad = nuevo_valor
+		WHERE id_grupo = id_grupo_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de id_grupo no existe en la tabla Grupos_Puntos_Comunicacion';
+
+	END IF;
+
+END//
+DELIMITER ;
+
+CALL update_GPC_cantidad(10594, 10);
+
+CALL update_GPC_cantidad(10594, 586);
+
+/*-------------------------------------------------------*/
+
+-- Tabla Grupos_Puntos_Comunicacion
+-- Modificar el valor de cantidad
+-- Recibe el id de la tabla y el nuevo valor para la cantidad
+
+DROP PROCEDURE IF EXISTS update_GPC_rango_cubierto;
+DELIMITER //
+CREATE PROCEDURE update_GPC_rango_cubierto(IN id_tabla INT, IN nuevo_valor DOUBLE)
+BEGIN
+
+	DECLARE id_grupo_resultante INT;
+
+	SET id_grupo_resultante = (SELECT id_grupo FROM Grupos_Puntos_Comunicacion WHERE id_grupo = id_tabla);
+
+	IF (id_grupo_resultante IS NOT NULL) THEN
+
+		UPDATE Grupos_Puntos_Comunicacion
+		SET rango_cubierto = nuevo_valor
+		WHERE id_grupo = id_grupo_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de id_grupo no existe en la tabla Grupos_Puntos_Comunicacion';
+
+	END IF;
+
+END//
+DELIMITER ;
+
+CALL update_GPC_rango_cubierto(10594, 10.0);
+
+CALL update_GPC_rango_cubierto(10594, 919.91);
+
+/*-------------------------------------------------------*/
+
+-- Tabla Lugar
+-- Modificar el valor de Longitud
+-- Recibe el id (codigo_area) de la tabla y el nuevo valor para la Longitud
 
 DROP PROCEDURE IF EXISTS update_Lugar;
 DELIMITER //
-CREATE PROCEDURE update_Lugar(IN columna_a_modificar VARCHAR(10), IN nuevo_valor VARCHAR(10), IN id_tabla VARCHAR(10))
+CREATE PROCEDURE update_Lugar(IN id_tabla VARCHAR(6), IN nuevo_valor VARCHAR(10))
 BEGIN
+
+	DECLARE codigo_area_resultante INT;
+
+	SET codigo_area_resultante = (SELECT codigo_area FROM Lugar WHERE codigo_area = id_tabla);
+
 	UPDATE Lugar
     SET columna_a_modificar = _nuevo_valor
     WHERE codigo_area = id_tabla;
@@ -299,7 +498,7 @@ CALL update_Lugar();
 
 DROP PROCEDURE IF EXISTS update_Puntos_Comunicacion;
 DELIMITER //
-CREATE PROCEDURE update_Puntos_Comunicacion(IN columna_a_modificar VARCHAR(10), IN nuevo_valor VARCHAR(10), IN id_tabla VARCHAR(10))
+CREATE PROCEDURE update_Puntos_Comunicacion(IN columna_a_modificar VARCHAR(10), IN id_tabla VARCHAR(10), IN nuevo_valor VARCHAR(10))
 BEGIN
 	UPDATE Puntos_Comunicacion
     SET columna_a_modificar = _nuevo_valor
@@ -315,7 +514,7 @@ CALL update_Puntos_Comunicacion();
 
 DROP PROCEDURE IF EXISTS update_Registra;
 DELIMITER //
-CREATE PROCEDURE update_Registra(IN columna_a_modificar VARCHAR(10), IN nuevo_valor VARCHAR(10), IN id_tabla VARCHAR(10))
+CREATE PROCEDURE update_Registra(IN columna_a_modificar VARCHAR(10), IN id_tabla VARCHAR(10), IN nuevo_valor VARCHAR(10))
 BEGIN
 	UPDATE Registra
     SET columna_a_modificar = _nuevo_valor
@@ -331,7 +530,7 @@ CALL update_Registra();
 
 DROP PROCEDURE IF EXISTS update_Registra_Observacion;
 DELIMITER //
-CREATE PROCEDURE update_Registra_Observacion(IN columna_a_modificar VARCHAR(10), IN nuevo_valor VARCHAR(10), IN id_tabla VARCHAR(10))
+CREATE PROCEDURE update_Registra_Observacion(IN columna_a_modificar VARCHAR(10), IN id_tabla VARCHAR(10), IN nuevo_valor VARCHAR(10))
 BEGIN
 	UPDATE Registra_Observacion
     SET columna_a_modificar = _nuevo_valor
