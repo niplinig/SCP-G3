@@ -487,6 +487,7 @@ BEGIN
 	UPDATE Lugar
     SET columna_a_modificar = _nuevo_valor
     WHERE codigo_area = id_tabla;
+	
 END//
 DELIMITER ;
 
