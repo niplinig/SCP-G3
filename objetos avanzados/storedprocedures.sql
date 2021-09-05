@@ -1347,33 +1347,33 @@ SELECT * FROM Registra_Observacion WHERE id_observacion = 1111;
 /*-------------------------------------------------------*/
 
 -- Tabla Registra_Observacion
--- Modificar el valor de fecha_registro
--- Recibe el id de la tabla y el nuevo valor para la fecha_registro
+-- Modificar el valor de hora_registro
+-- Recibe el id de la tabla y el nuevo valor para la hora_registro
 
-DROP PROCEDURE IF EXISTS update_RO_fecha_registro;
+DROP PROCEDURE IF EXISTS update_RO_hora_registro;
 DELIMITER //
-CREATE PROCEDURE update_RO_fecha_registro(IN id_tabla VARCHAR(10), IN nuevo_valor VARCHAR(10))
+CREATE PROCEDURE update_RO_hora_registro(IN id_tabla VARCHAR(10), IN nuevo_valor VARCHAR(10))
 BEGIN
 
 	DECLARE id_observacion_resultante INT;
-	DECLARE fecha_registro_resultante DATE;
+	DECLARE hora_registro_resultante TIME;
 
 	SET id_observacion_resultante = (SELECT id_observacion FROM Registra_Observacion WHERE id_observacion = id_tabla);
-	SET fecha_registro_resultante = (SELECT DATE(nuevo_valor));
+	SET hora_registro_resultante = (SELECT TIME(nuevo_valor));
 
 	IF (id_observacion_resultante IS NOT NULL) THEN
 
-		IF (fecha_registro_resultante IS NOT NULL) THEN
+		IF (hora_registro_resultante IS NOT NULL) THEN
 
 			UPDATE Registra_Observacion
-		    SET fecha_registro = fecha_registro_resultante
+		    SET hora_registro = hora_registro_resultante
 		    WHERE id_observacion = id_observacion_resultante;
 
 			SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
 
 		ELSE
 
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de fecha_registro no permitido';
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de hora_registro no permitido';
 
 		END IF;
 
@@ -1385,11 +1385,60 @@ BEGIN
 END//
 DELIMITER ;
 
-CALL update_RO_fecha_registro('1111', '2026-01-01');
+CALL update_RO_hora_registro('1111', '01:00:00');
 
 SELECT * FROM Registra_Observacion WHERE id_observacion = 1111;
 
-CALL update_RO_fecha_registro('1111', '2021-12-09');
+CALL update_RO_hora_registro('1111', '12:33:33');
+
+SELECT * FROM Registra_Observacion WHERE id_observacion = 1111;
+
+/*-------------------------------------------------------*/
+
+-- Tabla Registra_Observacion
+-- Modificar el valor de ubicacion_observador
+-- Recibe el id de la tabla y el nuevo valor para la ubicacion_observador
+
+DROP PROCEDURE IF EXISTS update_RO_ubicacion_observador;
+DELIMITER //
+CREATE PROCEDURE update_RO_ubicacion_observador(IN id_tabla VARCHAR(10), IN nuevo_valor VARCHAR(10))
+BEGIN
+
+	DECLARE id_observacion_resultante INT;
+	DECLARE ubicacion_observador_resultante TIME;
+
+	SET id_observacion_resultante = (SELECT id_observacion FROM Registra_Observacion WHERE id_observacion = id_tabla);
+	SET ubicacion_observador_resultante = (SELECT TIME(nuevo_valor));
+
+	IF (id_observacion_resultante IS NOT NULL) THEN
+
+		IF (ubicacion_observador_resultante IS NOT NULL) THEN
+
+			UPDATE Registra_Observacion
+		    SET ubicacion_observador = ubicacion_observador_resultante
+		    WHERE id_observacion = id_observacion_resultante;
+
+			SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+		ELSE
+
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de ubicacion_observador no permitido';
+
+		END IF;
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de id_observacion no existe en la tabla Registra_Observacion';
+
+	END IF;
+END//
+DELIMITER ;
+
+CALL update_RO_ubicacion_observador('1111', '01:00:00');
+
+SELECT * FROM Registra_Observacion WHERE id_observacion = 1111;
+
+CALL update_RO_ubicacion_observador('1111', 'MallDelRio');
 
 SELECT * FROM Registra_Observacion WHERE id_observacion = 1111;
 
