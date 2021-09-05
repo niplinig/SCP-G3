@@ -171,7 +171,7 @@ BEGIN
 			SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
 
 		ELSE
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, codigo_area_A no existe en la tabla Lugar';
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, codig_area(codigo_area_A) no existe en la tabla Lugar';
 
 		END IF;
 
@@ -192,9 +192,9 @@ CALL update_Asiste_codigo_area_A('0987672335', 'BCC800');
 -- Modificar el valor de Cedula
 -- Recibe el id de la tabla y el nuevo valor para la Cedula
 
-DROP PROCEDURE IF EXISTS update_Chip_Wireless;
+DROP PROCEDURE IF EXISTS update_Chip_Wireless_Cedula;
 DELIMITER //
-CREATE PROCEDURE update_Chip_Wireless(IN id_tabla VARCHAR(48), IN nuevo_valor VARCHAR(10))
+CREATE PROCEDURE update_Chip_Wireless_Cedula(IN id_tabla VARCHAR(48), IN nuevo_valor VARCHAR(10))
 BEGIN
 
 	DECLARE mac_address_disp_resultante VARCHAR(48);
@@ -214,7 +214,7 @@ BEGIN
 
 		ELSE
 
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al acualizar id_usuario(Cedula) no existe en la talba Usuario';
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al acualizar, id_usuario(Cedula) no existe en la talba Usuario';
 
 		END IF;
 
@@ -225,7 +225,9 @@ BEGIN
 END//
 DELIMITER ;
 
-CALL update_Chip_Wireless();
+CALL update_Chip_Wireless_Cedula('73-97-C2-7D-E3-E8', '0706389510');
+
+CALL update_Chip_Wireless_Cedula('73-97-C2-7D-E3-E8', '0656456546');
 
 /*-------------------------------------------------------*/
 
