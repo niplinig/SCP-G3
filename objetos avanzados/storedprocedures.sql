@@ -227,7 +227,11 @@ DELIMITER ;
 
 CALL update_Chip_Wireless_Cedula('73-97-C2-7D-E3-E8', '0706389510');
 
+SELECT * FROM Chip_Wireless WHERE mac_addres_disp LIKE '73-97-C2-7D-E3-E8';
+
 CALL update_Chip_Wireless_Cedula('73-97-C2-7D-E3-E8', '0656456546');
+
+SELECT * FROM Chip_Wireless WHERE mac_addres_disp LIKE '73-97-C2-7D-E3-E8';
 
 /*-------------------------------------------------------*/
 
@@ -269,7 +273,11 @@ DELIMITER ;
 
 CALL update_Ciudad_Sectores('Ambato', 'Sur');
 
+SELECT * FROM Ciudad WHERE Nombre LIKE 'Ambato';
+
 CALL update_Ciudad_Sectores('Ambato', 'Norte');
+
+SELECT * FROM Ciudad WHERE Nombre LIKE 'Ambato';
 
 /*-------------------------------------------------------*/
 
@@ -310,7 +318,11 @@ DELIMITER ;
 
 CALL update_Ciudad_Poblacion('Ambato', 10);
 
+SELECT * FROM Ciudad WHERE Nombre LIKE 'Ambato';
+
 CALL update_Ciudad_Poblacion('Ambato', 165185);
+
+SELECT * FROM Ciudad WHERE Nombre LIKE 'Ambato';
 
 /*-------------------------------------------------------*/
 
@@ -346,7 +358,11 @@ DELIMITER ;
 
 CALL update_Cliente_Nombre('1711109093001', 'Nicolás Plaza');
 
+SELECT * FROM CLiente WHERE RUC LIKE '1711109093001';
+
 CALL update_Cliente_Nombre('1711109093001', 'Felicidad Cardenas');
+
+SELECT * FROM CLiente WHERE RUC LIKE '1711109093001';
 
 /*-------------------------------------------------------*/
 
@@ -395,7 +411,11 @@ DELIMITER ;
 
 CALL update_GPC_g_operativo(10594);
 
+SELECT * FROM Grupos_Puntos_Comunicacion WHERE id_grupo = 10594;
+
 CALL update_GPC_g_operativo(10594);
+
+SELECT * FROM Grupos_Puntos_Comunicacion WHERE id_grupo = 10594;
 
 /*-------------------------------------------------------*/
 
@@ -431,7 +451,11 @@ DELIMITER ;
 
 CALL update_GPC_cantidad(10594, 10);
 
+SELECT * FROM Grupos_Puntos_Comunicacion WHERE id_grupo = 10594;
+
 CALL update_GPC_cantidad(10594, 586);
+
+SELECT * FROM Grupos_Puntos_Comunicacion WHERE id_grupo = 10594;
 
 /*-------------------------------------------------------*/
 
@@ -467,7 +491,11 @@ DELIMITER ;
 
 CALL update_GPC_rango_cubierto(10594, 10.0);
 
+SELECT * FROM Grupos_Puntos_Comunicacion WHERE id_grupo = 10594;
+
 CALL update_GPC_rango_cubierto(10594, 919.91);
+
+SELECT * FROM Grupos_Puntos_Comunicacion WHERE id_grupo = 10594;
 
 /*-------------------------------------------------------*/
 
@@ -1061,55 +1089,313 @@ SELECT * FROM Lugar WHERE ubicacion LIKE 'Av.9Octubre';
 
 /*-------------------------------------------------------*/
 
--- Puntos_Comunicacion
+-- Tabla Puntos_Comunicacion
+-- Modificar el valor de latitud
+-- Recibe el id de la tabla y el nuevo valor para la latitud
 
-DROP PROCEDURE IF EXISTS update_Puntos_Comunicacion;
+DROP PROCEDURE IF EXISTS update_PC_latitud;
 DELIMITER //
-CREATE PROCEDURE update_Puntos_Comunicacion(IN columna_a_modificar VARCHAR(10), IN id_tabla VARCHAR(10), IN nuevo_valor VARCHAR(10))
+CREATE PROCEDURE update_PC_latitud(IN id_tabla VARCHAR(48), IN nuevo_valor VARCHAR(20))
 BEGIN
-	UPDATE Puntos_Comunicacion
-    SET columna_a_modificar = _nuevo_valor
-    WHERE mac_adrress_bcn = id_tabla;
+
+	DECLARE mac_address_bcn_resultante VARCHAR(48);
+
+	SET mac_address_bcn_resultante = (SELECT mac_address_bcn FROM Puntos_Comunicacion WHERE mac_address_bcn LIKE id_tabla);
+
+	IF (mac_address_bcn_resultante IS NOT NULL) THEN
+
+		UPDATE Puntos_Comunicacion
+	    SET latitud = nuevo_valor
+	    WHERE mac_address_bcn = mac_address_bcn_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de mac_address_bcn no existe en la tabla Puntos_Comunicacion';
+
+	END IF;
+
 END//
 DELIMITER ;
 
-CALL update_Puntos_Comunicacion();
+CALL update_PC_latitud('0B-72-39-F2-D9-E0', '0');
+
+SELECT * FROM Puntos_Comunicacion WHERE mac_address_bcn LIKE '0B-72-39-F2-D9-E0';
+
+CALL update_PC_latitud('0B-72-39-F2-D9-E0', '49.4394');
+
+SELECT * FROM Puntos_Comunicacion WHERE mac_address_bcn LIKE '0B-72-39-F2-D9-E0';
 
 /*-------------------------------------------------------*/
 
--- Registra
+-- Tabla Puntos_Comunicacion
+-- Modificar el valor de longitud
+-- Recibe el id de la tabla y el nuevo valor para la longitud
 
-DROP PROCEDURE IF EXISTS update_Registra;
+DROP PROCEDURE IF EXISTS update_PC_longitud;
 DELIMITER //
-CREATE PROCEDURE update_Registra(IN columna_a_modificar VARCHAR(10), IN id_tabla VARCHAR(10), IN nuevo_valor VARCHAR(10))
+CREATE PROCEDURE update_PC_longitud(IN id_tabla VARCHAR(48), IN nuevo_valor VARCHAR(20))
 BEGIN
-	UPDATE Registra
-    SET columna_a_modificar = _nuevo_valor
-    WHERE id_usuario = id_tabla;
+
+	DECLARE mac_address_bcn_resultante VARCHAR(48);
+
+	SET mac_address_bcn_resultante = (SELECT mac_address_bcn FROM Puntos_Comunicacion WHERE mac_address_bcn LIKE id_tabla);
+
+	IF (mac_address_bcn_resultante IS NOT NULL) THEN
+
+		UPDATE Puntos_Comunicacion
+	    SET longitud = nuevo_valor
+	    WHERE mac_address_bcn = mac_address_bcn_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de mac_address_bcn no existe en la tabla Puntos_Comunicacion';
+
+	END IF;
+
 END//
 DELIMITER ;
 
-CALL update_Registra();
+CALL update_PC_longitud('0B-72-39-F2-D9-E0', '0');
+
+SELECT * FROM Puntos_Comunicacion WHERE mac_address_bcn LIKE '0B-72-39-F2-D9-E0';
+
+CALL update_PC_longitud('0B-72-39-F2-D9-E0', '-83.8382');
+
+SELECT * FROM Puntos_Comunicacion WHERE mac_address_bcn LIKE '0B-72-39-F2-D9-E0';
 
 /*-------------------------------------------------------*/
 
--- Registra_Observacion
+-- Tabla Puntos_Comunicacion
+-- Modificar el valor de mensaje
+-- Recibe el id de la tabla y el nuevo valor para el mensaje
 
-DROP PROCEDURE IF EXISTS update_Registra_Observacion;
+DROP PROCEDURE IF EXISTS update_PC_mensaje;
 DELIMITER //
-CREATE PROCEDURE update_Registra_Observacion(IN columna_a_modificar VARCHAR(10), IN id_tabla VARCHAR(10), IN nuevo_valor VARCHAR(10))
+CREATE PROCEDURE update_PC_mensaje(IN id_tabla VARCHAR(48), IN nuevo_valor VARCHAR(100))
 BEGIN
-	UPDATE Registra_Observacion
-    SET columna_a_modificar = _nuevo_valor
-    WHERE id_observacion = id_tabla;
+
+	DECLARE mac_address_bcn_resultante VARCHAR(48);
+
+	SET mac_address_bcn_resultante = (SELECT mac_address_bcn FROM Puntos_Comunicacion WHERE mac_address_bcn LIKE id_tabla);
+
+	IF (mac_address_bcn_resultante IS NOT NULL) THEN
+
+		UPDATE Puntos_Comunicacion
+	    SET mensaje = nuevo_valor
+	    WHERE mac_address_bcn = mac_address_bcn_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de mac_address_bcn no existe en la tabla Puntos_Comunicacion';
+
+	END IF;
+
 END//
 DELIMITER ;
 
-CALL update_Registra_Observacion();
+CALL update_PC_mensaje('0B-72-39-F2-D9-E0', 'NEW MESSAGE');
+
+SELECT * FROM Puntos_Comunicacion WHERE mac_address_bcn LIKE '0B-72-39-F2-D9-E0';
+
+CALL update_PC_mensaje('0B-72-39-F2-D9-E0', 'We know');
+
+SELECT * FROM Puntos_Comunicacion WHERE mac_address_bcn LIKE '0B-72-39-F2-D9-E0';
 
 /*-------------------------------------------------------*/
 
--- Tabla Usuairo
+-- Tabla Puntos_Comunicacion
+-- Modificar el valor de operativo
+-- Recibe el id de la tabla y el nuevo valor para el operativo
+
+DROP PROCEDURE IF EXISTS update_PC_operativo;
+DELIMITER //
+CREATE PROCEDURE update_PC_operativo(IN id_tabla VARCHAR(48), IN nuevo_valor VARCHAR(20))
+BEGIN
+
+	DECLARE mac_address_bcn_resultante VARCHAR(48);
+
+	SET mac_address_bcn_resultante = (SELECT mac_address_bcn FROM Puntos_Comunicacion WHERE mac_address_bcn LIKE id_tabla);
+
+	IF (mac_address_bcn_resultante IS NOT NULL) THEN
+
+		IF (nuevo_valor IN ('1', '0')) THEN
+
+			UPDATE Puntos_Comunicacion
+		    SET operativo = nuevo_valor
+		    WHERE mac_address_bcn = mac_address_bcn_resultante;
+
+			SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+		ELSE
+
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de opreativo no permitido';
+
+		END IF;
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de mac_address_bcn no existe en la tabla Puntos_Comunicacion';
+
+	END IF;
+
+END//
+DELIMITER ;
+
+CALL update_PC_operativo('0B-72-39-F2-D9-E0', '0');
+
+SELECT * FROM Puntos_Comunicacion WHERE mac_address_bcn LIKE '0B-72-39-F2-D9-E0';
+
+CALL update_PC_operativo('0B-72-39-F2-D9-E0', '1');
+
+SELECT * FROM Puntos_Comunicacion WHERE mac_address_bcn LIKE '0B-72-39-F2-D9-E0';
+
+/*-------------------------------------------------------*/
+
+-- Tabla Puntos_Comunicacion
+-- Modificar el valor de rango
+-- Recibe el id de la tabla y el nuevo valor para el rango
+
+DROP PROCEDURE IF EXISTS update_PC_rango;
+DELIMITER //
+CREATE PROCEDURE update_PC_rango(IN id_tabla VARCHAR(48), IN nuevo_valor FLOAT)
+BEGIN
+
+	DECLARE mac_address_bcn_resultante VARCHAR(48);
+
+	SET mac_address_bcn_resultante = (SELECT mac_address_bcn FROM Puntos_Comunicacion WHERE mac_address_bcn LIKE id_tabla);
+
+	IF (mac_address_bcn_resultante IS NOT NULL) THEN
+
+		UPDATE Puntos_Comunicacion
+	    SET rango = nuevo_valor
+	    WHERE mac_address_bcn = mac_address_bcn_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de mac_address_bcn no existe en la tabla Puntos_Comunicacion';
+
+	END IF;
+
+END//
+DELIMITER ;
+
+CALL update_PC_rango('0B-72-39-F2-D9-E0', '0');
+
+SELECT * FROM Puntos_Comunicacion WHERE mac_address_bcn LIKE '0B-72-39-F2-D9-E0';
+
+CALL update_PC_rango('0B-72-39-F2-D9-E0', '573.48');
+
+SELECT * FROM Puntos_Comunicacion WHERE mac_address_bcn LIKE '0B-72-39-F2-D9-E0';
+
+/*-------------------------------------------------------*/
+
+-- Tabla Registra_Observacion
+-- Modificar el valor de fecha_registro
+-- Recibe el id de la tabla y el nuevo valor para la fecha_registro
+
+DROP PROCEDURE IF EXISTS update_RO_fecha_registro;
+DELIMITER //
+CREATE PROCEDURE update_RO_fecha_registro(IN id_tabla VARCHAR(10), IN nuevo_valor VARCHAR(10))
+BEGIN
+
+	DECLARE id_observacion_resultante INT;
+	DECLARE fecha_registro_resultante DATE;
+
+	SET id_observacion_resultante = (SELECT id_observacion FROM Registra_Observacion WHERE id_observacion = id_tabla);
+	SET fecha_registro_resultante = (SELECT DATE(nuevo_valor));
+
+	IF (id_observacion_resultante IS NOT NULL) THEN
+
+		IF (fecha_registro_resultante IS NOT NULL) THEN
+
+			UPDATE Registra_Observacion
+		    SET fecha_registro = fecha_registro_resultante
+		    WHERE id_observacion = id_observacion_resultante;
+
+			SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+		ELSE
+
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de fecha_registro no permitido';
+
+		END IF;
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de id_observacion no existe en la tabla Registra_Observacion';
+
+	END IF;
+END//
+DELIMITER ;
+
+CALL update_RO_fecha_registro('1111', '2026-01-01');
+
+SELECT * FROM Registra_Observacion WHERE id_observacion = 1111;
+
+CALL update_RO_fecha_registro('1111', '2021-12-09');
+
+SELECT * FROM Registra_Observacion WHERE id_observacion = 1111;
+
+/*-------------------------------------------------------*/
+
+-- Tabla Registra_Observacion
+-- Modificar el valor de fecha_registro
+-- Recibe el id de la tabla y el nuevo valor para la fecha_registro
+
+DROP PROCEDURE IF EXISTS update_RO_fecha_registro;
+DELIMITER //
+CREATE PROCEDURE update_RO_fecha_registro(IN id_tabla VARCHAR(10), IN nuevo_valor VARCHAR(10))
+BEGIN
+
+	DECLARE id_observacion_resultante INT;
+	DECLARE fecha_registro_resultante DATE;
+
+	SET id_observacion_resultante = (SELECT id_observacion FROM Registra_Observacion WHERE id_observacion = id_tabla);
+	SET fecha_registro_resultante = (SELECT DATE(nuevo_valor));
+
+	IF (id_observacion_resultante IS NOT NULL) THEN
+
+		IF (fecha_registro_resultante IS NOT NULL) THEN
+
+			UPDATE Registra_Observacion
+		    SET fecha_registro = fecha_registro_resultante
+		    WHERE id_observacion = id_observacion_resultante;
+
+			SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Actualizazición exitosa';
+
+		ELSE
+
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de fecha_registro no permitido';
+
+		END IF;
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al actualizar, valor de id_observacion no existe en la tabla Registra_Observacion';
+
+	END IF;
+END//
+DELIMITER ;
+
+CALL update_RO_fecha_registro('1111', '2026-01-01');
+
+SELECT * FROM Registra_Observacion WHERE id_observacion = 1111;
+
+CALL update_RO_fecha_registro('1111', '2021-12-09');
+
+SELECT * FROM Registra_Observacion WHERE id_observacion = 1111;
+
+/*-------------------------------------------------------*/
+
+-- Tabla Usuario
 -- Modificar el valor de Telefono
 -- Recibe el id de la tabla y el nuevo valor para el Telefono
 
@@ -1143,7 +1429,11 @@ DELIMITER ;
 
 CALL update_Usuario_Telefono('0656456546', '5555555555');
 
+SELECT * FROM Usuario WHERE id_usuario LIKE '0656456546';
+
 CALL update_Usuario_Telefono('0656456546', '0987878666');
+
+SELECT * FROM Usuario WHERE id_usuario LIKE '0656456546';
 
 /*-------------------------------------------------------*/
 
