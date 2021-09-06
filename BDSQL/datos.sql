@@ -1,88 +1,88 @@
-/*
+
 -- LUGAR
 Insert into Lugar(codigo_area, ubicacion, latitud, longitud, radio, sector, codigo_postal,
 cantidad_personas)
-Values ("AAA100", "Av.9Octubre", "-79.3223", "89.1919", 200.12, "centro", "090101", 
+Values ("AAA100", "Av.9Octubre", "-79.3223", "89.1919", 200.12, "centro", "090101",
 20);
 Insert into Lugar(codigo_area, ubicacion, latitud, longitud, radio, sector, codigo_postal,
 cantidad_personas)
-Values ("ABB200", "Av.LeonFC.", "-64.1902", "-73.8219", 300.12, "norte", "090102", 
+Values ("ABB200", "Av.LeonFC.", "-64.1902", "-73.8219", 300.12, "norte", "090102",
 30);
 Insert into Lugar(codigo_area, ubicacion, latitud, longitud, radio, sector, codigo_postal,
 cantidad_personas)
-Values ("ACC300", "Av.JuanTancaM", "-65.0996", "-121.3442", 400.12, "norte", "090103", 
+Values ("ACC300", "Av.JuanTancaM", "-65.0996", "-121.3442", 400.12, "norte", "090103",
 40);
 Insert into Lugar(codigo_area, ubicacion, latitud, longitud, radio, sector, codigo_postal,
 cantidad_personas)
-Values ("ADD400", "Av.Colon", "-86.9268", "137.3438", 500.12, "norte", "090104", 
+Values ("ADD400", "Av.Colon", "-86.9268", "137.3438", 500.12, "norte", "090104",
 10);
 Insert into Lugar(codigo_area, ubicacion, latitud, longitud, radio, sector, codigo_postal,
 cantidad_personas)
-Values ("BAB500", "Av.Cristobal", "11.4021", "46.4785", 600.12, "centro", "090105", 
+Values ("BAB500", "Av.Cristobal", "11.4021", "46.4785", 600.12, "centro", "090105",
 15);
 Insert into Lugar(codigo_area, ubicacion, latitud, longitud, radio, sector, codigo_postal,
 cantidad_personas)
-Values ("BAC600", "Av.Fernandez", "24.0210", "102.1295", 200.12, "sur", "090106", 
+Values ("BAC600", "Av.Fernandez", "24.0210", "102.1295", 200.12, "sur", "090106",
 19);
 Insert into Lugar(codigo_area, ubicacion, latitud, longitud, radio, sector, codigo_postal,
 cantidad_personas)
-Values ("BAD700", "Av.ElEjercito", "-53.1092", "176.1538", 100.12, "sur", "090107", 
+Values ("BAD700", "Av.ElEjercito", "-53.1092", "176.1538", 100.12, "sur", "090107",
 30);
 Insert into Lugar(codigo_area, ubicacion, latitud, longitud, radio, sector, codigo_postal,
 cantidad_personas)
-Values ("BCC800", "Av.ElBombero", "54.9589", "-133.3480", 200.12, "norte", "090108", 
+Values ("BCC800", "Av.ElBombero", "54.9589", "-133.3480", 200.12, "norte", "090108",
 20);
 Insert into Lugar(codigo_area, ubicacion, latitud, longitud, radio, sector, codigo_postal,
 cantidad_personas)
-Values ("CCA900", "Av.Daule", "43.3155", "-64.0480", 200.12, "norte", "090109", 
+Values ("CCA900", "Av.Daule", "43.3155", "-64.0480", 200.12, "norte", "090109",
 34);
 Insert into Lugar(codigo_area, ubicacion, latitud, longitud, radio, sector, codigo_postal,
 cantidad_personas)
-Values ("CAD200", "Av.Boyaca", "80.4871", "-119.9449", 200.12, "centro", "090200", 
+Values ("CAD200", "Av.Boyaca", "80.4871", "-119.9449", 200.12, "centro", "090200",
 50);
 Insert into Lugar(codigo_area, ubicacion, latitud, longitud, radio, sector, codigo_postal,
 cantidad_personas)
-Values ("COP300", "Miraflores", "-23.8738", "147.5909", 200.12, "norte", "090201", 
+Values ("COP300", "Miraflores", "-23.8738", "147.5909", 200.12, "norte", "090201",
 20);
 Insert into Lugar(codigo_area, ubicacion, latitud, longitud, radio, sector, codigo_postal,
 cantidad_personas)
-Values ("CUT400", "Prosperina", "-21.6032", "-159.4199", 300.12, "norte", "090221", 
+Values ("CUT400", "Prosperina", "-21.6032", "-159.4199", 300.12, "norte", "090221",
 25);
 Insert into Lugar(codigo_area, ubicacion, latitud, longitud, radio, sector, codigo_postal,
 cantidad_personas)
-Values ("CTH200", "Ceibos", "-33.4023", "-32.0751", 200.12, "norte", "090331", 
+Values ("CTH200", "Ceibos", "-33.4023", "-32.0751", 200.12, "norte", "090331",
 49);
 Insert into Lugar(codigo_area, ubicacion, latitud, longitud, radio, sector, codigo_postal,
 cantidad_personas)
-Values ("DTO300", "Urdesa", "-40.0642", "-166.5245", 500.12, "norte", "090601", 
+Values ("DTO300", "Urdesa", "-40.0642", "-166.5245", 500.12, "norte", "090601",
 80);
 Insert into Lugar(codigo_area, ubicacion, latitud, longitud, radio, sector, codigo_postal,
 cantidad_personas)
-Values ("DJG500", "MuchoLote", "69.1715", "135.8642", 800.12, "norte", "090171", 
+Values ("DJG500", "MuchoLote", "69.1715", "135.8642", 800.12, "norte", "090171",
 90);
 Insert into Lugar(codigo_area, ubicacion, latitud, longitud, radio, sector, codigo_postal,
 cantidad_personas)
-Values ("DEJ100", "MuchoLote2", "-66.6181", "97.1271", 400.12, "norte", "090349", 
+Values ("DEJ100", "MuchoLote2", "-66.6181", "97.1271", 400.12, "norte", "090349",
 88);
 Insert into Lugar(codigo_area, ubicacion, latitud, longitud, radio, sector, codigo_postal,
 cantidad_personas)
-Values ("DKD600", "SanMarino", "62.2650", "-80.0556", 700.12, "centronorte", "090501", 
+Values ("DKD600", "SanMarino", "62.2650", "-80.0556", 700.12, "centronorte", "090501",
 500);
 Insert into Lugar(codigo_area, ubicacion, latitud, longitud, radio, sector, codigo_postal,
 cantidad_personas)
-Values ("DUE300", "MallDelSol", "11.4389", "-168.3510", 500.12, "norte", "090751", 
+Values ("DUE300", "MallDelSol", "11.4389", "-168.3510", 500.12, "norte", "090751",
 660);
 Insert into Lugar(codigo_area, ubicacion, latitud, longitud, radio, sector, codigo_postal,
 cantidad_personas)
-Values ("EQI330", "MallDelSur", "-86.7048", "-155.6245", 600.12, "sur", "090101", 
+Values ("EQI330", "MallDelSur", "-86.7048", "-155.6245", 600.12, "sur", "090101",
 550);
 Insert into Lugar(codigo_area, ubicacion, latitud, longitud, radio, sector, codigo_postal,
 cantidad_personas)
-Values ("EIT560", "MallDelRio", "16.9310", "29.1762", 400.12, "norte", "090165", 
+Values ("EIT560", "MallDelRio", "16.9310", "29.1762", 400.12, "norte", "090165",
 700);
 */
 
-/*
+
 --PUNTOS COMUNICACION
 INSERT INTO Puntos_Comunicacion
 VALUES ("6C-5C-47-EF-96-65", "79.9848", "-20.6164", "We take pride in excellent", 1, 165.71);
@@ -124,9 +124,9 @@ INSERT INTO Puntos_Comunicacion(mac_address_bcn, latitud, longitud, mensaje, ope
 VALUES ('A9-E4-CB-89-64-94', '-56.3507', '-83.1854', 'We take pride in our', 1, 677.82);
 INSERT INTO Puntos_Comunicacion(mac_address_bcn, latitud, longitud, mensaje, operativo, rango)
 VALUES ('F2-0C-5B-E8-4A-0C', '55.3839','177.3963', 'The authority on', 1, 398.65);
-*/
 
-/*
+
+
 -- Ciudad
 INSERT INTO Ciudad(Nombre, Sectores, Poblacion)
 VALUES ('Guayaquil', 'Norte' , 2278691);
@@ -168,9 +168,9 @@ INSERT INTO Ciudad(Nombre, Sectores, Poblacion)
 VALUES ('Daule', 'Este', 65145);
 INSERT INTO Ciudad(Nombre, Sectores, Poblacion)
 VALUES ('Latacunga', 'Sur', 63842);
-*/
 
-/*
+
+
 -- Grupos_Puntos_Comunicacion
 INSERT INTO Grupos_Puntos_Comunicacion(id_grupo, g_operativo, cantidad, rango_cubierto)
 VALUES (10594, 1, 586, 919.91);
@@ -214,7 +214,7 @@ INSERT INTO Grupos_Puntos_Comunicacion(id_grupo, g_operativo, cantidad, rango_cu
 VALUES (40120, 1, 978, 608.13);
 */
 
-/*
+
 -- USUARIO
 INSERT INTO Usuario (Cedula,Telefono) Values("0865672738","0957675676");
 INSERT INTO Usuario (Cedula,Telefono) Values("0943654673","0923423434");
@@ -239,7 +239,7 @@ INSERT INTO Usuario (Cedula,Telefono) Values("0945111233","0911232312");
 */
 
 -- SELECT * FROM Usuario;
-/*
+
 --REGISTRA OBSERVACION
 Insert into Registra_Observacion(id_observacion, fecha_registro, hora_registro, ubicacion_observador, mac_address_punto)
 Values ("02922", "2021-10-03", "12:20:01", "Av.9Octubre", "6C-5C-47-EF-96-65");
@@ -283,7 +283,7 @@ Insert into Registra_Observacion(id_observacion, fecha_registro, hora_registro, 
 Values ("01111", "2021-12-09", "12:33:33", "MallDelRio", "F2-0C-5B-E8-4A-0C");
 */
 
-/*
+
 --CLIENTE
 INSERT INTO Cliente (RUC,Nombre) VALUES ("1765464565001","Juan Gonzalez");
 INSERT INTO Cliente (RUC,Nombre) VALUES ("1712323323001","Amina Vives");
@@ -308,7 +308,7 @@ INSERT INTO Cliente (RUC,Nombre) VALUES ("1734594854001","Iñigo Palomo");
 INSERT INTO Cliente (RUC,Nombre) VALUES ("1720940394001","Ernesto Chacon");
 */
 
-/*
+
 --CHIP WIRELESS
 INSERT INTO Chip_Wireless (mac_address_disp,Cedula) VALUES ("70-E2-84-70-E2-84","0865672738");
 INSERT INTO Chip_Wireless (mac_address_disp,Cedula) VALUES ("20-F7-45-4F-0E-31","0943654673");
@@ -332,7 +332,7 @@ INSERT INTO Chip_Wireless (mac_address_disp,Cedula) VALUES ("73-97-C2-7D-E3-E8",
 INSERT INTO Chip_Wireless (mac_address_disp,Cedula) VALUES ("D1-83-70-6C-CE-02","0945111233");
 */
 
-/*
+
 --REGISTRA
 INSERT INTO Registra (id_usuario,mac_addres_bcn) VALUES ("0865672738",'6C-5C-47-EF-96-65');
 INSERT INTO Registra (id_usuario,mac_addres_bcn) VALUES ("0943654673",'A7-25-EA-38-76-EC');
@@ -354,9 +354,9 @@ INSERT INTO Registra (id_usuario,mac_addres_bcn) VALUES ("0976563454",'94-33-E5-
 INSERT INTO Registra (id_usuario,mac_addres_bcn) VALUES ("0942343432",'D4-30-30-66-ED-B1');
 INSERT INTO Registra (id_usuario,mac_addres_bcn) VALUES ("0656456546",'A9-E4-CB-89-64-94');
 INSERT INTO Registra (id_usuario,mac_addres_bcn) VALUES ("0945111233",'F2-0C-5B-E8-4A-0C');
-*/          
+*/
 
-/*
+
 --ASISTE
 INSERT INTO Asiste(id_usuario_A, codigo_area_A)
 VALUES ('0865672738', 'AAA100');
@@ -398,4 +398,3 @@ INSERT INTO Asiste(id_usuario_A, codigo_area_A)
 VALUES ('0656456546', 'EQI330');
 INSERT INTO Asiste(id_usuario_A, codigo_area_A)
 VALUES ('0945111233', 'EIT560');
-/*

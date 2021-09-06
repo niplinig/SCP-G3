@@ -418,8 +418,8 @@ SELECT * FROM Grupos_Puntos_Comunicacion WHERE id_grupo = 10594;
 /*-------------------------------------------------------*/
 
 -- Tabla Grupos_Puntos_Comunicacion
--- Modificar el valor de cantidad
--- Recibe el id de la tabla y el nuevo valor para la cantidad
+-- Modificar el valor de rango
+-- Recibe el id de la tabla y el nuevo valor para el rango
 
 DROP PROCEDURE IF EXISTS update_GPC_rango_cubierto;
 DELIMITER //
@@ -1536,14 +1536,31 @@ SELECT * FROM Asiste WHERE id_usuario LIKE '0865672738';
 
 DROP PROCEDURE IF EXISTS delete_Chip_Wireless;
 DELIMITER //
-CREATE PROCEDURE delete_Chip_Wireless(IN id_tabla VARCHAR(10))
+CREATE PROCEDURE delete_Chip_Wireless(IN id_tabla VARCHAR(48))
 BEGIN
-	DELETE FROM Chip_Wireless
-    WHERE mac_address_disp = id_tabla;
+
+	DECLARE mac_address_disp_resultante VARCHAR(48);
+	SET mac_address_disp_resultante = (SELECT mac_address_disp FROM Chip_Wireless WHERE mac_address_disp LIKE id_tabla);
+
+	IF (mac_address_resultante IS NOT NULL) THEN
+
+		DELETE FROM Chip_Wireless
+	    WHERE mac_address_disp = mac_address_disp_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Borrado exitoso';
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al borrar, el valor de id_usuario_A no existe en la tabla Asiste';
+
+	END IF;
+
 END//
 DELIMITER ;
 
-CALL delete_Chip_Wireless();
+SELECT * FROM Chip_Wireless WHERE mac_address_disp LIKE '73-97-C2-7D-E3-E8';
+
+CALL delete_Chip_Wireless('73-97-C2-7D-E3-E8');
 
 /*-------------------------------------------------------*/
 
@@ -1553,14 +1570,33 @@ CALL delete_Chip_Wireless();
 
 DROP PROCEDURE IF EXISTS delete_Ciudad;
 DELIMITER //
-CREATE PROCEDURE delete_Ciudad(IN id_tabla VARCHAR(10))
+CREATE PROCEDURE delete_Ciudad(IN id_tabla VARCHAR(45))
 BEGIN
-	DELETE FROM Ciudad
-    WHERE Nombre = id_tabla;
+
+	DECLARE Nombre_resultante VARCHAR(45);
+	SET Nombre_resultante = (SELECT Nombre FROM Ciudad WHERE Nombre LIKE id_tabla);
+
+	IF (Nombre_resultante IS NOT NULL) THEN
+
+		DELETE FROM Ciudad
+	    WHERE Nombre = Nombre_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Borrado exitoso';
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al borrar, el valor de id_usuario_A no existe en la tabla Asiste';
+
+	END IF;
+
 END//
 DELIMITER ;
 
-CALL delete_Ciudad();
+SELECT * FROM Ciudad WHERE Nombre LIKE 'Guayaquil';
+
+CALL delete_Ciudad('Guayaquil');
+
+SELECT * FROM Ciudad WHERE Nombre LIKE 'Guayaquil';
 
 /*-------------------------------------------------------*/
 
@@ -1570,14 +1606,33 @@ CALL delete_Ciudad();
 
 DROP PROCEDURE IF EXISTS delete_Cliente;
 DELIMITER //
-CREATE PROCEDURE delete_Cliente(IN id_tabla VARCHAR(10))
+CREATE PROCEDURE delete_Cliente(IN id_tabla VARCHAR(13))
 BEGIN
-	DELETE FROM Cliente
-    WHERE RUC = id_tabla;
+
+	DECLARE RUC_resultante VARCHAR(13);
+	SET RUC_resultante = (SELECT RUC FROM Cliente WHERE RUC LIKE id_tabla);
+
+	IF (Nombre_resultante IS NOT NULL) THEN
+
+		DELETE FROM Cliente
+	    WHERE RUC = RUC_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Borrado exitoso';
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al borrar, el valor de id_usuario_A no existe en la tabla Asiste';
+
+	END IF;
+
 END//
 DELIMITER ;
 
-CALL delete_Cliente();
+SELECT * FROM Cliente WHERE RUC LIKE '1711109093001';
+
+CALL delete_Cliente('1711109093001');
+
+SELECT * FROM Cliente WHERE RUC LIKE '1711109093001';
 
 /*-------------------------------------------------------*/
 
@@ -1587,14 +1642,33 @@ CALL delete_Cliente();
 
 DROP PROCEDURE IF EXISTS delete_Grupos_Puntos_Comunicacion;
 DELIMITER //
-CREATE PROCEDURE delete_Grupos_Puntos_Comunicacion(IN id_tabla VARCHAR(10))
+CREATE PROCEDURE delete_Grupos_Puntos_Comunicacion(IN id_tabla INT)
 BEGIN
-	DELETE FROM Grupos_Puntos_Comunicacion
-    WHERE id_grupo = id_tabla;
+
+	DECLARE id_grupo_resultante INT;
+	SET id_grupo_resultante = (SELECT id_grupo FROM Grupos_Puntos_Comunicacion WHERE id_grupo LIKE id_tabla);
+
+	IF (id_grupo_resultante IS NOT NULL) THEN
+
+		DELETE FROM Grupos_Puntos_Comunicacion
+	    WHERE id_grupo = id_grupo_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Borrado exitoso';
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al borrar, el valor de id_usuario_A no existe en la tabla Asiste';
+
+	END IF;
+
 END//
 DELIMITER ;
 
-CALL delete_Grupos_Puntos_Comunicacion();
+SELECT * FROM Grupos_Puntos_Comunicacion WHERE id_grupo LIKE '10594';
+
+CALL delete_Grupos_Puntos_Comunicacion('10594');
+
+SELECT * FROM Grupos_Puntos_Comunicacion WHERE id_grupo LIKE '10594';
 
 /*-------------------------------------------------------*/
 
@@ -1604,14 +1678,33 @@ CALL delete_Grupos_Puntos_Comunicacion();
 
 DROP PROCEDURE IF EXISTS delete_Lugar;
 DELIMITER //
-CREATE PROCEDURE delete_Lugar(IN id_tabla VARCHAR(10))
+CREATE PROCEDURE delete_Lugar(IN id_tabla VARCHAR(6))
 BEGIN
-	DELETE FROM Lugar
-    WHERE codigo_area = id_tabla;
+
+	DECLARE codigo_area_resultante VARCHAR(6);
+	SET codigo_area_resultante = (SELECT codigo_area FROM Lugar WHERE codigo_area LIKE id_tabla);
+
+	IF (codigo_area_resultante IS NOT NULL) THEN
+
+		DELETE FROM Lugar
+	    WHERE codigo_area = codigo_area_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Borrado exitoso';
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al borrar, el valor de id_usuario_A no existe en la tabla Asiste';
+
+	END IF;
+
 END//
 DELIMITER ;
 
-CALL delete_Lugar();
+SELECT * FROM Lugar WHERE codigo_area LIKE 'AAA100';
+
+CALL delete_Lugar('AAA100');
+
+SELECT * FROM Lugar WHERE codigo_area LIKE 'AAA100';
 
 /*-------------------------------------------------------*/
 
@@ -1619,16 +1712,36 @@ CALL delete_Lugar();
 -- Borrar la fila o el registro
 -- Recibe el id de la fila la cual se quiere borrar
 
+
 DROP PROCEDURE IF EXISTS delete_Puntos_Comunicacion;
 DELIMITER //
-CREATE PROCEDURE delete_Puntos_Comunicacion(IN id_tabla VARCHAR(10))
+CREATE PROCEDURE delete_Puntos_Comunicacion(IN id_tabla VARCHAR(6))
 BEGIN
-	DELETE FROM Puntos_Comunicacion
-    WHERE mac_adrress_bcn = id_tabla;
+
+	DECLARE mac_address_bcn_resultante VARCHAR(6);
+	SET mac_address_bcn_resultante = (SELECT mac_address_bcn FROM Puntos_Comunicacion WHERE mac_address_bcn LIKE id_tabla);
+
+	IF (mac_address_bcn_resultante IS NOT NULL) THEN
+
+		DELETE FROM Puntos_Comunicacion
+	    WHERE mac_address_bcn = mac_address_bcn_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Borrado exitoso';
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al borrar, el valor de id_usuario_A no existe en la tabla Asiste';
+
+	END IF;
+
 END//
 DELIMITER ;
 
-CALL delete_Puntos_Comunicacion();
+SELECT * FROM Puntos_Comunicacion WHERE mac_address_disp LIKE '0B-72-39-F2-D9-E0';
+
+CALL delete_Puntos_Comunicacion('0B-72-39-F2-D9-E0');
+
+SELECT * FROM Lugar WHERE mac_address_disp LIKE '0B-72-39-F2-D9-E0';
 
 /*-------------------------------------------------------*/
 
@@ -1640,12 +1753,31 @@ DROP PROCEDURE IF EXISTS delete_Registra;
 DELIMITER //
 CREATE PROCEDURE delete_Registra(IN id_tabla VARCHAR(10))
 BEGIN
-	DELETE FROM Registra
-    WHERE id_usuario = id_tabla;
+
+	DECLARE id_usuario_resultante VARCHAR(10);
+	SET id_usuario_resultante = (SELECT id_usuario FROM Registra WHERE id_usuario LIKE id_tabla);
+
+	IF (id_usuario_resultante IS NOT NULL) THEN
+
+		DELETE FROM Registra
+	    WHERE id_usuario = id_usuario_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Borrado exitoso';
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al borrar, el valor de id_usuario_A no existe en la tabla Asiste';
+
+	END IF;
+
 END//
 DELIMITER ;
 
-CALL delete_Registra();
+SELECT * FROM Registra WHERE id_usuario LIKE '0656456546';
+
+CALL delete_Registra('0656456546');
+
+SELECT * FROM Registra WHERE id_usuario LIKE '0656456546';
 
 /*-------------------------------------------------------*/
 
@@ -1655,15 +1787,33 @@ CALL delete_Registra();
 
 DROP PROCEDURE IF EXISTS delete_Registra_Observacion;
 DELIMITER //
-CREATE PROCEDURE delete_Registra_Observacion(IN id_tabla VARCHAR(10))
+CREATE PROCEDURE delete_Registra_Observacion(IN id_tabla INT)
 BEGIN
-	DELETE FROM Registra_Observacion
-    WHERE id_observacion = id_tabla;
+
+	DECLARE id_observacion_resultante INT;
+	SET id_observacion_resultante = (SELECT id_observacion FROM Registra_Observacion WHERE id_observacion = id_tabla);
+
+	IF (id_observacion_resultante IS NOT NULL) THEN
+
+		DELETE FROM Registra_Observacion
+	    WHERE id_observacion = id_observacion_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Borrado exitoso';
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al borrar, el valor de id_usuario_A no existe en la tabla Asiste';
+
+	END IF;
+
 END//
 DELIMITER ;
 
-CALL delete_Registra_Observacion();
+SELECT * FROM Registra_Observacion WHERE id_observacion = 1111;
 
+CALL delete_Registra_Observacion(1111);
+
+SELECT * FROM Registra_Observacion WHERE id_observacion = 1111;
 /*-------------------------------------------------------*/
 
 -- Tabla Usuario
@@ -1674,12 +1824,31 @@ DROP PROCEDURE IF EXISTS delete_Usuario;
 DELIMITER //
 CREATE PROCEDURE delete_Usuario(IN id_tabla VARCHAR(10))
 BEGIN
-	DELETE FROM Usuario
-    WHERE id_usuario = id_tabla;
+
+	DECLARE id_usuario_resultante VARCHAR(10);
+	SET id_usuario_resultante = (SELECT id_usuario FROM Usuario WHERE id_usuario = id_tabla);
+
+	IF (id_usuario_resultante IS NOT NULL) THEN
+
+		DELETE FROM Usuario
+	    WHERE id_usuario LIKE id_usuario_resultante;
+
+		SIGNAL SQLSTATE '01000' SET MESSAGE_TEXT = 'Borrado exitoso';
+
+	ELSE
+
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Fallo al borrar, el valor de id_usuario_A no existe en la tabla Asiste';
+
+	END IF;
+
 END//
 DELIMITER ;
 
-CALL delete_Usuario();
+SELECT * FROM Usuario WHERE id_usuario = '0656456546';
+
+CALL delete_Usuario('0656456546');
+
+SELECT * FROM Usuario WHERE id_usuario = '0656456546';
 
 /*-------------------------------------------------------*/
 
