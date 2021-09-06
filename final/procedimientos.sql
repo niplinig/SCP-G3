@@ -1892,100 +1892,105 @@ CALL aforo_actual('Urdesa');
 
 /*-------------------------------------------------------*/
 
--- SELECTS
+-- CONSULTAS CON STORED PROCEDURES
+-- Establecer Monitoreo por rangos de fechas
+
+DROP PROCEDURE IF EXISTS monitoreo_por_fechas;
+DELIMITER //
+CREATE PROCEDURE monitoreo_por_fechas(IN FECHA_INICIO DATE, IN FECHA_FIN DATE)
+BEGIN
+    IF FECHA_INICIO < FECHA_FIN THEN
+        SELECT RO.mac_address_punto AS mac_address, RO.fecha_registro AS fecha, RO.hora_registro AS hora, PC.Operativo AS operativo, PC.Rango AS rango_cubierto
+        FROM Puntos_Comunicacion AS PC, Registra_Observacion AS RO
+        WHERE mac_address_punto = mac_address_bcn
+        AND RO.fecha_registro > FECHA_INICIO
+        AND RO.fecha_registro < FECHA_FIN;
+	END IF;
+END //
+DELIMITER ;
+
+CALL monitoreo_por_fechas('2021-02-14', '2040-02-14');
+
+--  Consultar el aforo actual de una ubicacion determinada
+
+DROP PROCEDURE IF EXISTS aforo_actual;
+DELIMITER //
+CREATE PROCEDURE aforo_actual(IN in_ubicacion VARCHAR(30))
+BEGIN
+    SELECT L.ciudad AS ciudad, RO.ubicacion_observador AS ubicacion, RO.fecha_registro AS fecha_consultada, L.cantidad_personas AS cantidad_personas
+    FROM Lugar AS L, Registra_Observacion AS RO
+    WHERE L.ubicacion = RO.ubicacion_observador
+    AND RO.ubicacion_observador LIKE in_ubicacion
+    AND RO.fecha_registro = CURRENT_DATE();
+END //
+DELIMITER ;
+
+CALL aforo_actual('Urdesa');
+
+/*------------------------------------------------------*/
 
 DROP PROCEDURE IF EXISTS mostrar_datos_por_ciudad;
 DELIMITER //
 CREATE PROCEDURE mostrar_datos_por_ciudad(IN nomCiudad VARCHAR(40))
 BEGIN
-	SELECT * FROM CIUDAD WHERE nomCiudad LIKE nomCiudad;
+	SELECT * FROM Ciudad WHERE Nombre LIKE nomCiudad;
 END //
 DELIMITER ;
+call mostrar_datos_por_ciudad('Guayaquil');
+
 
 DROP PROCEDURE IF EXISTS mayor_a_rango;
 DELIMITER //
-CREATE PROCEDURE mayor_a_rango(IN rango int)
+CREATE PROCEDURE mayor_a_rango(IN rango double(5,2))
 BEGIN
-	SELECT * FROM GRUPOS_PUNTOS_COMUNICACION WHERE RANGO_CUBIERTO > rango;
+	SELECT * FROM Grupos_Puntos_Comunicacion WHERE rango_cubierto > rango;
 END //
 DELIMITER ;
+call mayor_a_rango(400);
+
 
 DROP PROCEDURE IF EXISTS observaciones_por_fecha;
 DELIMITER //
 CREATE PROCEDURE observaciones_por_fecha(IN fecha DATE)
 BEGIN
-	SELECT * FROM REGISTRA_OBSERVACION WHERE FECHA_REGISTRO = fecha;
+	SELECT * FROM Registra_Observacion WHERE fecha_registro = fecha;
 END //
 DELIMITER ;
+call observaciones_por_fecha('2021-03-29');
 
-DROP PROCEDURE IF EXISTS prom_veces_user;
-DELIMITER //
-CREATE PROCEDURE prom_veces_user(IN IDUSER VARCHAR(10))
-BEGIN
-	SELECT ID_USUARIO_A , AVG(ID_USUARIO_A) AS PROMEDIO_VECES
-	FROM ASISTE
-    WHERE ID_USUARIO_A LIKE IDUSER
-	GROUP BY ID_USUARIO_A
-	ORDER BY ID_USUARIO_A;
-END //
-DELIMITER ;
-
-DROP PROCEDURE IF EXISTS cant_users_hora_lugar;
-DELIMITER //
-CREATE PROCEDURE cant_users_hora_lugar(IN lugar VARCHAR(40) , IN hora time)
-BEGIN
-	SELECT LUGAR.UBICACION, COUNT (CANTIDAD_USUARIOS) AS NUMERO_USUARIOS
-	FROM LUGAR,REGISTRA_OBSERVACION
-	WHERE REGISTRA_OBSERVACION.HORA_REGISTRO = hora AND LUGAR.UBICACION = lugar;
-END //
-DELIMITER ;
-
-DROP PROCEDURE IF EXISTS observaciones_por_dias;
-DELIMITER //
-CREATE PROCEDURE observaciones_por_dias(IN primerafecha DATE, IN segundafecha DATE)
-BEGIN
-	SELECT LUGAR.UBICACION , REGISTRA_OBSERVACION.FECHA_REGISTRO
-	FROM LUGAR,REGISTRA_OBSERVACION
-	WHERE Registrar_Observacion.fecha_registro < segundafecha AND Registrar_Observacion.fecha_registro > primerafecha;
-END //
-DELIMITER ;
 
 DROP PROCEDURE IF EXISTS lugares_por_usuario;
 DELIMITER //
 CREATE PROCEDURE lugares_por_usuario(IN cedula VARCHAR(10))
 BEGIN
-	SELECT LUGAR.UBICACION , ASISTE.ID_USUARIO
-	FROM LUGAR,ASISTE
-	WHERE ASISTE.ID_CODIGO_AREA - LUGAR.CODIGO_AREA AND ASISTE.ID_USUARIO = cedula;
+	SELECT Lugar.ubicacion , Asiste.id_usuario_A
+	FROM Lugar,Asiste
+	WHERE Asiste.codigo_area_A = Lugar.codigo_area AND Asiste.id_usuario_A = cedula;
 END //
 DELIMITER ;
+call lugares_por_usuario('0923432430');
+
 
 DROP PROCEDURE IF EXISTS cant_personas_por_lugar;
 DELIMITER //
 CREATE PROCEDURE cant_personas_por_lugar(IN lugar VARCHAR(40))
 BEGIN
-	SELECT LUGAR.CANTIDAD_PERSONAS, LUGAR.UBICACION
-	FROM LUGAR
-	WHERE LUGAR.UBICACION = lugar;
+	SELECT Lugar.cantidad_personas, Lugar.ubicacion
+	FROM Lugar
+	WHERE Lugar.ubicacion = lugar;
 END //
 DELIMITER ;
+call cant_personas_por_lugar('Prosperina');
 
-DROP PROCEDURE IF EXISTS lugares_por_sector;
-DELIMITER //
-CREATE PROCEDURE lugares_por_sector(IN sector VARCHAR(40))
-BEGIN
-	SELECT LUGAR.UBICACION
-	FROM LUGAR
-	WHERE LUGAR.SECTOR = sector;
-END //
-DELIMITER ;
+
 
 DROP PROCEDURE IF EXISTS mostrar_lugares_por_ciudad;
 DELIMITER //
-CREATE PROCEDURE mostrar_lugares(IN nomCiudad VARCHAR(40))
+CREATE PROCEDURE mostrar_lugares_por_ciudad(IN nomCiudad VARCHAR(45))
 BEGIN
-	SELECT LUGAR.UBICACION
-	FROM LUGAR,CIUDAD
-	WHERE CIUDAD.NOMBRE = LUGAR.CIUDAD AND LUGAR.CIUDAD = nomCiudad;
+	SELECT Lugar.ubicacion
+	FROM Lugar,Ciudad
+	WHERE Ciudad.Nombre = Lugar.ciudad AND Lugar.ciudad = nomCiudad;
 END //
 DELIMITER ;
+call mostrar_lugares_por_ciudad('Guayaquil');
